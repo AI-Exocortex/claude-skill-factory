@@ -1,25 +1,36 @@
 # ZOMBIES - Test Case Discovery Heuristic
 
-Use this checklist when planning tests to ensure completeness.
+Two dimensions guide test planning:
 
-**Z** - Zero: What happens with zero, empty, null, none?
-**O** - One: What happens with exactly one item?
-**M** - Many: What happens with multiple items? (Also: More complex scenarios)
-**B** - Boundary: Edge cases, limits, off-by-one errors
-**I** - Interface: Does the API make sense? Are inputs/outputs clear?
-**E** - Exceptions: Error conditions, invalid inputs, exceptional paths
-**S** - Simple: Start with the simplest scenario first
+**ZOM axis** (simple → complex):
+- **Z** - Zero: empty, null, none, initial state
+- **O** - One: single item, first transition
+- **M** - Many: multiple items, more complex scenarios
 
-## Example: Testing a shopping cart
+**BIE considerations** (apply at each ZOM level):
+- **B** - Boundary: edge cases, limits, off-by-one
+- **I** - Interface: does the API make sense as it emerges?
+- **E** - Exceptions: error conditions, invalid inputs
+
+**S** - Simple scenarios, simple solutions (applies throughout)
+
+## How to use
+
+1. Start with Zero - test the object in its initial state
+2. Progress through One, then Many
+3. At each level, consider Boundaries, Interface clarity, and Exceptions
+4. Keep solutions simple - hard-coded values are fine early on, generalize later
+
+## Example: Testing a stack
 
 ```
-[TEST] Empty cart has zero total                         <- Z
-[TEST] Cart with one item shows that item's price        <- O
-[TEST] Cart with multiple items sums their prices        <- M
-[TEST] Cart handles maximum item quantity                <- B
-[TEST] Adding item returns updated cart                  <- I
-[TEST] Adding negative quantity throws error             <- E
-[TEST] Cart exists when created                          <- S (start here)
+[TEST] New stack is empty                                <- Z
+[TEST] Push one item, stack is not empty                 <- O
+[TEST] Push and pop returns the item                     <- O + I
+[TEST] Pop from empty stack throws                       <- Z + E
+[TEST] Push multiple, pop returns in LIFO order          <- M
+[TEST] Push to capacity, then push throws                <- B + E
 ```
 
-Order tests by simplicity, not by ZOMBIES order.
+---
+Source: [TDD Guided by ZOMBIES](https://blog.wingman-sw.com/tdd-guided-by-zombies) by James Grenning
