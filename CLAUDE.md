@@ -16,4 +16,4 @@ This repository creates Claude Code skills. Read `docs/project.md` for goals and
 
 See `docs/map.md` for complete structure and file descriptions.
 
-For skill creation instructions, see `docs/creating-skills.md`.
+For skill creation instructions, see `docs/create_new_skill-process.md`.
