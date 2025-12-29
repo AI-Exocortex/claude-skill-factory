@@ -5,7 +5,7 @@ description: Follows test-driven development process when writing code. Use when
 
 # Test-Driven Development
 
-When starting, announce: "TDD mode: [auto|human]"
+When starting, announce: "Using TDD skill in mode: [auto|human]"
 
 MODE (user specifies, default: auto)
 - auto: fully automated, no stops

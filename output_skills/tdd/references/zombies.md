@@ -1,35 +1,43 @@
 # ZOMBIES - Test Case Discovery Heuristic
 
-Two dimensions guide test planning:
+## Structure
 
 **ZOM axis** (simple → complex):
-- **Z** - Zero: empty, null, none, initial state
-- **O** - One: single item, first transition
+- **Z** - Zero: initial state after creation (empty, not full, default values)
+- **O** - One: first item, first transition
 - **M** - Many: multiple items, more complex scenarios
 
 **BIE considerations** (apply at each ZOM level):
-- **B** - Boundary: edge cases, limits, off-by-one
-- **I** - Interface: does the API make sense as it emerges?
-- **E** - Exceptions: error conditions, invalid inputs
+- **B** - Boundary: transitions between states, both directions (empty↔not-empty, not-full↔full)
+- **I** - Interface: let tests reveal what methods, parameters, and return types are needed
+- **E** - Exceptions: error conditions, and verify the object still works after errors
 
 **S** - Simple scenarios, simple solutions (applies throughout)
 
-## How to use
+## Key principles
 
-1. Start with Zero - test the object in its initial state
-2. Progress through One, then Many
-3. At each level, consider Boundaries, Interface clarity, and Exceptions
-4. Keep solutions simple - hard-coded values are fine early on, generalize later
+**Test transitions, not just states.** Verify moving from empty to not-empty, and back again.
 
-## Example: Testing a stack
+**Procrastinate deliberately.** Defer implementation until tests demand it. Hard-coded return values are fine - tests will catch if you forget to generalize.
+
+**Interface emerges from tests.** Don't design the API upfront. Write tests, and the needed methods reveal themselves.
+
+**Exceptions come last.** Get happy paths working first, then test error conditions. Verify that failed operations don't corrupt the object.
+
+## Example: Circular buffer (FIFO)
 
 ```
-[TEST] New stack is empty                                <- Z
-[TEST] Push one item, stack is not empty                 <- O
-[TEST] Push and pop returns the item                     <- O + I
-[TEST] Pop from empty stack throws                       <- Z + E
-[TEST] Push multiple, pop returns in LIFO order          <- M
-[TEST] Push to capacity, then push throws                <- B + E
+[TEST] New buffer is empty                               <- Z
+[TEST] New buffer is not full                            <- Z
+[TEST] Put one item, buffer is not empty                 <- O
+[TEST] Put then get returns the item                     <- O + I
+[TEST] Put then get, buffer is empty again               <- O + B (transition back)
+[TEST] Put three items, get returns them in order        <- M
+[TEST] Fill to capacity, buffer is full                  <- M + B
+[TEST] Wrap around: fill, empty, refill works            <- M + B
+[TEST] Put to full buffer fails                          <- E
+[TEST] Get from empty buffer fails                       <- E
+[TEST] After failed put, buffer still works              <- E (integrity check)
 ```
 
 ---
