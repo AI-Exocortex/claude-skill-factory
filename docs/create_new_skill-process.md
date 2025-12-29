@@ -1,6 +1,6 @@
 # Create New Skill
 
-STARTER_CHARACTER = 🎯
+STARTER_CHARACTER = 📚🧩
 
 ## Description
 
