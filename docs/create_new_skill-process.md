@@ -124,6 +124,7 @@ Confirm SKILL.md and any references/ are in place before telling user to restart
 - Skill doesn't trigger → improve description with better trigger words
 - Claude misses steps → make instructions more prominent
 - Too verbose → remove what Claude already knows
+Note any other issues and think broader. Read the skill documentation again, then read the skill definition, suggest improvements based on the issues seen. 
 
 ## Output
 Save completed skill to: `output_skills/[skill-name]/SKILL.md`
