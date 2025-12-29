@@ -5,7 +5,7 @@ description: Follows test-driven development process when writing code. Use when
 
 # Test-Driven Development
 
-**Thoroughness over speed.** Every line of code must be motivated by a test. Don't skip tests or cut corners to reach the goal faster.
+TDD is a design technique that uses tests as a tool. Design emerges from usage, not speculation. Short feedback loops let you course-correct immediately. The resulting architecture is testable by design, not retrofitted. It's crucial to be thorough and only add what tests demand.
 
 When starting, announce: "Using TDD skill in mode: [auto|human]"
 
