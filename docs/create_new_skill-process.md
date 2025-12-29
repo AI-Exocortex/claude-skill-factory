@@ -4,7 +4,16 @@ STARTER_CHARACTER = 📚🧩
 
 ## Description
 
-Create a Claude Code skill that works effectively. Skills teach Claude domain-specific expertise that triggers automatically when relevant.
+Create a Claude Code skill.
+
+Skills are a context management mechanism. They package knowledge Claude needs for specific tasks while keeping context lean through progressive disclosure:
+- **Startup**: Only name + description loaded (~100 tokens per skill)
+- **When triggered**: Full SKILL.md instructions loaded
+- **As needed**: References loaded only when the task requires them
+
+This fights limited focus (LLMs can't attend to everything) and context rot (earlier instructions slip as conversations grow).
+
+Skills are NOT slash commands - those are user-invoked prompts.
 
 ## Steps
 
@@ -17,16 +26,22 @@ Read the official documentation in `docs/knowledge/anthropic-skill-docs/`:
 ### 2. Clarify the Goal
 Ask the user:
 - What specific task should Claude be able to do?
-- When should this skill trigger? (What phrases would a user say?)
 - What does Claude NOT already know that this skill needs to provide?
 - Do you have examples that should be included as reference material?
 
-### 3. Research (if needed)
+### 3. Propose Name and Trigger
+Based on what the user described, SUGGEST:
+- A skill name (the essence of what it does, extremely succinct, lowercase with hyphens)
+- A trigger description (what user requests should activate this)
+
+Present both for user approval before proceeding.
+
+### 4. Research (if needed)
 If the domain is unfamiliar:
 - Gather domain knowledge first
 - Identify patterns, terminology, and common workflows
 
-### 4. Design Structure
+### 5. Design Structure
 
 **Skill anatomy:**
 ```
@@ -43,24 +58,23 @@ Decide scope:
 
 **Do NOT include:** README.md, CHANGELOG.md, INSTALLATION_GUIDE.md, or other auxiliary documentation.
 
-### 5. Write SKILL.md
+### 6. Write SKILL.md
 
 **Frontmatter:**
 ```yaml
 ---
-name: doing-the-thing
+name: skill-name
 description: [What it does]. Use when [trigger phrases user would say].
 ---
 ```
-- Name: lowercase, hyphens, gerund form preferred
+- Name: The essence of what the skill does. Lowercase, hyphens. Avoid verbose names.
 - Description: Third person, specific, includes trigger words. This is the primary triggering mechanism.
 
 **Body:**
 - Concise instructions. Assume Claude is smart.
 - Use principles + anti-examples, not good examples to copy (avoids collapsing solution space)
-- Anti-example: "Avoid vague names like `helper`, `utils`" is better than listing good names
 
-### 6. Add Supporting Files (if multi-file)
+### 7. Add Supporting Files (if multi-file)
 
 **References:** Detailed docs, loaded only when needed. Keep SKILL.md lean.
 
@@ -71,7 +85,7 @@ description: [What it does]. Use when [trigger phrases user would say].
 
 Keep references one level deep from SKILL.md.
 
-### 7. Review Against Best Practices
+### 8. Review Against Best Practices
 Re-read `docs/knowledge/anthropic-skill-docs/best-practices.md` and `skills.md` (troubleshooting section). Compare to what you created:
 - Does the description include clear trigger words?
 - Is the body concise? Remove anything Claude already knows.
@@ -80,12 +94,33 @@ Re-read `docs/knowledge/anthropic-skill-docs/best-practices.md` and `skills.md` 
 
 Suggest improvements before proceeding.
 
-### 8. Test
+### 9. Install Skill
+Ask user: **Global skill or project skill?**
+
+**Global (personal, all projects):**
+```bash
+cp -r output_skills/[skill-name] ~/.claude/skills/[skill-name]
+```
+
+**Project (shared via git):**
+```bash
+cp -r output_skills/[skill-name] .claude/skills/[skill-name]
+```
+
+After copying, verify the structure:
+```bash
+ls -la [target-path]/[skill-name]/
+```
+
+Confirm SKILL.md and any references/ are in place before telling user to restart Claude Code.
+
+### 10. Test
+- Restart Claude Code to load the skill
 - Ask Claude to do a task that should trigger the skill
 - Verify: Does it trigger? Does Claude follow instructions correctly?
 - Try edge cases
 
-### 9. Iterate
+### 11. Iterate
 - Skill doesn't trigger → improve description with better trigger words
 - Claude misses steps → make instructions more prominent
 - Too verbose → remove what Claude already knows
