@@ -5,7 +5,7 @@ description: Follows test-driven development process when writing code. Use when
 
 # Test-Driven Development
 
-**Thoroughness over speed.** Complete test coverage matters more than quick delivery. Don't skip tests or cut corners to reach the goal faster.
+**Thoroughness over speed.** Every line of code must be motivated by a test. Don't skip tests or cut corners to reach the goal faster.
 
 When starting, announce: "Using TDD skill in mode: [auto|human]"
 
