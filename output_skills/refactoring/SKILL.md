@@ -37,7 +37,7 @@ Never change test assertions, test data, or test logic.
 
 ### Code Style
 
-Write self-explanatory, readable code.
+Prefer self-explanatory, readable code over comments.
 
 - Use functional helper methods for clarity
 - Remove dead code
@@ -49,7 +49,7 @@ Write self-explanatory, readable code.
 - Use domain language - name things for what they ARE, not how they're implemented
 - Keep consistent abstraction levels within methods
 
-### Refactoring Process
+### Process
 
 For each refactor:
 1. Ensure all tests pass
@@ -65,7 +65,7 @@ If a refactor fails three times or no further refactoring is found, pause and ch
 
 When you see no more obvious refactoring opportunities, say "🔍 Entering final evaluation".
 
-Re-read Code Style guidelines. Look at the code again. If you see improvements, apply them using the same refactoring process.
+Look at the code with the fresh eyes and see improvements we haven't considered yet. If you see improvements, apply them using the same refactoring process.
 
 ## 4. Summary
 
