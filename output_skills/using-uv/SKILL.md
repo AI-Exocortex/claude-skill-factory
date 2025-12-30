@@ -1,5 +1,5 @@
 ---
-name: uv
+name: using-uv
 description: Python package and project management with UV. Use when creating Python scripts, initializing projects, or managing dependencies.
 ---
 
