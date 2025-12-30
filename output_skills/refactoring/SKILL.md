@@ -61,7 +61,7 @@ If a refactor fails three times or no further refactoring is found, pause and ch
 
 When you see no more obvious refactoring opportunities, say "🔍 Entering final evaluation".
 
-Carefully look at existing code and think about the problem space:
+Examine each file in scope. For each file, think about the problem space:
 - What is the purpose of the code? Express it as both fully and succinctly as possible, say "CODE PURPOSE: [your summary]"
 - Does the actual code express that purpose in a way that is clear to see and understand for the reader?
 - Look for opportunities to use domain language over implementation details in both explanations and names. Express what things ARE and why they exist, instead of how they're implemented.
