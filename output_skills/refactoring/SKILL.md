@@ -18,6 +18,14 @@ Work autonomously as much as possible. Start with the simplest thing or file and
 3. Final Evaluation
 4. Cleanup
 
+## Test Code Policy
+
+Do not change test code during refactoring, except:
+- Renames that follow production code renames (imports, function calls)
+- Import path updates if something moved
+
+Never change test assertions, test data, or test logic.
+
 ## 1. Prep
 
 Search for ./test.sh script in the project root and run it for all tests.
@@ -66,14 +74,8 @@ After all refactoring is complete, check for any backward-compatibility artifact
 
 If any exist:
 - List them clearly
-- Ask the user: "Should I update tests to use the new names and remove the compatibility shims?"
+- Ask the user: "Should I update tests to use the new names and remove the compatibility aliases?"
 - Only proceed with user approval
-
-Allowed changes to test code:
-- Renames that follow production code renames (imports, function calls)
-- Import path updates if something moved
-
-Never change test assertions, test data, or test logic.
 
 ## Language-Specific
 
