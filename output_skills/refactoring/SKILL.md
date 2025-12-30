@@ -7,14 +7,26 @@ description: Refactoring process. Invoke immediately when user or document menti
 
 STARTER_CHARACTER = 🟣
 
-When starting, announce: "🟣Using REFACTORING skill".
+When starting, announce: "🟣 Using REFACTORING skill".
 
 Work autonomously as much as possible. Start with the simplest thing or file and proceed to the more complex ones.
-Search for ./test.sh script in the root and run it for all tests on every refactoring. 
-If it's not present, create it and ensure it runs all tests. 
-Never change test code in this process. 
 
-## Code Style
+## Stages
+
+1. Prep
+2. Main Refactoring
+3. Final Evaluation
+4. Cleanup
+
+## 1. Prep
+
+Search for ./test.sh script in the project root and run it for all tests.
+If it's not present, create it and ensure it runs all tests.
+Verify all tests pass before starting any refactoring.
+
+## 2. Main Refactoring
+
+### Code Style
 
 Prefer self-explanatory, readable code over comments.
 
@@ -25,30 +37,43 @@ Prefer self-explanatory, readable code over comments.
 - Remove unused imports
 - Remove unhelpful local variables
 
-## Process
-
-Confirm the relevant test file and its location before starting.
-
-For each refactor:
+### Refactoring Process
+Follow this process for each refactoring:
 1. Ensure all tests pass
 2. Choose and perform the simplest possible refactoring (one at a time)
 3. Ensure all tests pass after the change
-4. Commit each successful refactor with the message format: "- r <refactoring>" (quotes must include the - r).
+4. Commit each successful refactor with the message format: "- r <refactoring>" (the message must include the "- r" prefix)
 5. Provide a status update after each refactor
 
 If a refactor fails three times or no further refactoring is found, pause and check with the user.
 
-### Final Evaluation
-- If you see no more opportunities to refactoring, say "🔍Entering final evaluation"
-- Carefully look at existing code
-- Think about problem space:
-  - What is the purpose of the code? Express it as both fully and succinctly as possible, say 'CODE PURPOSE: [CODE_PURPOSE]', replace CODE_PURPOSE with your summary.
-  - Does the actual code express that purpose in a way that is clear to see and understand for the reader?
-  - Look for opportunities to use domain language over implementation details in both explanations and names. Express what things ARE and why they exist, instead of how they're implemented.
-  - Think about applying this on different layers of abstraction: the whole file, methods, or parts of methods
-  - Look for methods where levels of abstraction are mixed: too much detail vs more abstract blocks that express the meaning. Can you see an opportunity to raise the level of abstraction in the more detailed sections?
-  - Think about the list of refactorings that you could implement to make the code better from that perspective
-  - If you identified improvements, follow the same refactoring process to implement them, be sure to commit and run tests as before, performing simplest refactoring first.
+## 3. Final Evaluation
+
+When you see no more obvious refactoring opportunities, say "🔍 Entering final evaluation".
+
+Carefully look at existing code and think about the problem space:
+- What is the purpose of the code? Express it as both fully and succinctly as possible, say "CODE PURPOSE: [your summary]"
+- Does the actual code express that purpose in a way that is clear to see and understand for the reader?
+- Look for opportunities to use domain language over implementation details in both explanations and names. Express what things ARE and why they exist, instead of how they're implemented.
+- Think about applying this on different layers of abstraction: the whole file, methods, or parts of methods
+- Look for methods where levels of abstraction are mixed: too much detail vs more abstract blocks that express the meaning. Can you see an opportunity to raise the level of abstraction in the more detailed sections?
+- Think about the list of refactorings that you could implement to make the code better from that perspective
+- If you identified improvements, follow the same refactoring process to implement them, be sure to commit and run tests as before, performing simplest refactoring first.
+
+## 4. Cleanup
+
+After all refactoring is complete, check for any backward-compatibility artifacts that were left behind to avoid breaking tests (aliases, re-exports, old function names kept alongside new ones).
+
+If any exist:
+- List them clearly
+- Ask the user: "Should I update tests to use the new names and remove the compatibility shims?"
+- Only proceed with user approval
+
+Allowed changes to test code:
+- Renames that follow production code renames (imports, function calls)
+- Import path updates if something moved
+
+Never change test assertions, test data, or test logic.
 
 ## Language-Specific
 
