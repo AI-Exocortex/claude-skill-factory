@@ -14,6 +14,17 @@ Search for ./test.sh script in the root and run it for all tests on every refact
 If it's not present, create it and ensure it runs all tests. 
 Never change test code in this process. 
 
+## Code Style
+
+Prefer self-explanatory, readable code over comments.
+
+- Use functional helper methods for clarity
+- Remove comments and dead code
+- Extract paragraphs into methods
+- Use better variable names
+- Remove unused imports
+- Remove unhelpful local variables
+
 ## Process
 
 Confirm the relevant test file and its location before starting.
@@ -27,19 +38,8 @@ For each refactor:
 
 If a refactor fails three times or no further refactoring is found, pause and check with the user.
 
-## Code Style
-
-Prefer self-explanatory, readable code over comments.
-
-- Use functional helper methods for clarity
-- Remove comments and dead code
-- Extract paragraphs into methods
-- Use better variable names
-- Remove unused imports
-- Remove unhelpful local variables
-
-## Final Evaluation
-- Say "🔍Evaluating refactoring"
+### Final Evaluation
+- If you see no more opportunities to refactoring, say "🔍Entering final evaluation"
 - Carefully look at existing code
 - Think about problem space:
   - What is the purpose of the code? Express it as both fully and succinctly as possible, say 'CODE PURPOSE: [CODE_PURPOSE]', replace CODE_PURPOSE with your summary.
