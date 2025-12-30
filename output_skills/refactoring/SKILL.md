@@ -29,11 +29,20 @@ Never change test assertions, test data, or test logic.
 
 ## 1. Prep
 
+### Determine Scope
+If user specified files, use those.
+Otherwise, identify related files (imports, shared functionality).
+If unclear, ask user.
+
+Add files in scope to the todo list. Also add key milestones: tests passing, comments removed, each file refactored, cleanup done.
+
+### Setup Tests
 Search for ./test.sh script in the project root and run it for all tests.
 If it's not present, create it and ensure it runs all tests.
 Verify all tests pass before starting any refactoring.
 
-Remove all comments from the files to be refactored as initial cleanup. This can be done in one commit per file.
+### Initial Cleanup
+Remove all comments from the files to be refactored. This can be done in one commit per file.
 
 ## 2. Main Refactoring
 
