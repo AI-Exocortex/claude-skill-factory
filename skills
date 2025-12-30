@@ -4,6 +4,7 @@
 # ///
 
 import curses
+import sys
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).parent.resolve()
@@ -27,23 +28,61 @@ def install_skill(skill_name):
     source = SKILLS_SOURCE_DIR / skill_name
     target = GLOBAL_SKILLS_DIR / skill_name
 
+    if not source.exists():
+        print(f"Error: Skill '{skill_name}' not found in output_skills/")
+        return False
+
     if target.exists() or target.is_symlink():
         if target.is_symlink():
             target.unlink()
         else:
-            return
+            print(f"Error: {target} exists but is not a symlink. Remove manually.")
+            return False
 
     GLOBAL_SKILLS_DIR.mkdir(parents=True, exist_ok=True)
     target.symlink_to(source)
+    return True
 
 
 def uninstall_skill(skill_name):
     target = GLOBAL_SKILLS_DIR / skill_name
     if target.is_symlink():
         target.unlink()
+        return True
+    elif target.exists():
+        print(f"Error: {target} is not a symlink. Remove manually.")
+        return False
+    return True
 
 
-def main(stdscr):
+def cli_status():
+    skills = discover_skills()
+    if not skills:
+        print("No skills found in output_skills/")
+        return
+
+    print(f"{'Skill':<20} {'Status'}")
+    print("-" * 35)
+    for name in skills:
+        status = "installed" if is_installed(name) else "not installed"
+        print(f"{name:<20} {status}")
+
+
+def cli_install(skill_name):
+    if install_skill(skill_name):
+        print(f"Installed '{skill_name}'")
+    else:
+        sys.exit(1)
+
+
+def cli_uninstall(skill_name):
+    if uninstall_skill(skill_name):
+        print(f"Uninstalled '{skill_name}'")
+    else:
+        sys.exit(1)
+
+
+def interactive_mode(stdscr):
     curses.curs_set(0)
     curses.use_default_colors()
 
@@ -87,5 +126,31 @@ def main(stdscr):
                 install_skill(name)
 
 
+def print_usage():
+    print("Usage:")
+    print("  ./skills status           List all skills and status")
+    print("  ./skills install <name>   Install a skill")
+    print("  ./skills uninstall <name> Uninstall a skill")
+    print("  ./skills toggle           Interactive mode (TUI)")
+
+
+def main():
+    args = sys.argv[1:]
+
+    if not args:
+        print_usage()
+    elif args[0] == "status":
+        cli_status()
+    elif args[0] == "install" and len(args) == 2:
+        cli_install(args[1])
+    elif args[0] == "uninstall" and len(args) == 2:
+        cli_uninstall(args[1])
+    elif args[0] == "toggle":
+        curses.wrapper(interactive_mode)
+    else:
+        print_usage()
+        sys.exit(1)
+
+
 if __name__ == "__main__":
-    curses.wrapper(main)
+    main()
