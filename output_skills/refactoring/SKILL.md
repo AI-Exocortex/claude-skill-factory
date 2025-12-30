@@ -65,7 +65,15 @@ If a refactor fails three times or no further refactoring is found, pause and ch
 
 When you see no more obvious refactoring opportunities, say "🔍 Entering final evaluation".
 
-Look at the code with the fresh eyes and see improvements we haven't considered yet. If you see improvements, apply them using the same refactoring process.
+Shift focus: you've been implementing. Now become a critic. Your job is to find problems, not produce code.
+
+Re-read Code Style guidelines. Look at each file in scope. Consider blind spots - what improvements haven't we even considered that would make the code better, easier, more maintainable?
+
+For each file, find ONE thing that could be better. If you find something:
+1. Fix it using the same refactoring process (test, change, test, commit)
+2. Look again - fixing one thing often reveals the next
+
+Repeat until you find nothing more to improve.
 
 ## 4. Summary
 
