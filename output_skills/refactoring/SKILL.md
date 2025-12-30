@@ -16,8 +16,7 @@ Work autonomously as much as possible. Start with the simplest thing or file and
 1. Prep
 2. Main Refactoring
 3. Final Evaluation
-4. Cleanup
-5. Summary
+4. Summary
 
 ## Test Code Policy
 
@@ -71,17 +70,7 @@ Carefully look at existing code and think about the problem space:
 - Think about the list of refactorings that you could implement to make the code better from that perspective
 - If you identified improvements, follow the same refactoring process to implement them, be sure to commit and run tests as before, performing simplest refactoring first.
 
-## 4. Cleanup
-
-After all refactoring is complete, check for any backward-compatibility artifacts that were left behind to avoid breaking tests (aliases, re-exports, old function names kept alongside new ones).
-
-If any exist:
-- List them clearly
-- Ask the user: "Should I update tests to use the new names and remove the compatibility aliases?"
-- Only proceed with user approval
-- Run tests after making changes to verify nothing broke
-
-## 5. Summary
+## 4. Summary
 
 Provide a high-level summary of the refactoring:
 - List each file that was touched
