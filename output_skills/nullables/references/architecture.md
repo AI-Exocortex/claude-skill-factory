@@ -14,26 +14,11 @@ Nullables work best when your application follows specific architectural pattern
 Structure applications with Logic and Infrastructure as peers under the Application layer:
 
 ```
-            ┌─────────────────┐
-            │   Application   │
-            │  (coordinates)  │
-            └────────┬────────┘
-                     │
-         ┌───────────┴───────────┐
-         │                       │
-         ▼                       ▼
-┌─────────────────┐     ┌─────────────────┐
-│      Logic      │     │ Infrastructure  │
-│  (pure, tested) │     │   (Nullables)   │
-└─────────────────┘     └─────────────────┘
-         │                       │
-         └───────────┬───────────┘
-                     │
-                     ▼
-            ┌─────────────────┐
-            │  Value Objects  │
-            │ (shared types)  │
-            └─────────────────┘
+        Application (coordinates)
+            ↓              ↓
+Logic (pure, tested)    Infrastructure (Nullables)
+            ↓              ↓
+        Value Objects (shared types)
 ```
 
 **Key rules:**
