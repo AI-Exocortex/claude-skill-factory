@@ -5,7 +5,7 @@ description: Writes tests without mocks using James Shore's Nullables pattern. U
 
 # Nullables: Testing Without Mocks
 
-STARTER_CHARACTER = ⭕️
+STARTER_CHARACTER = 🧪
 
 External I/O is slow and flaky. Tests that hit real databases, APIs, or file systems run slow and fail randomly. We want tests that run in milliseconds and never fail due to network issues. Fast tests mean fast feedback loops.
 
