@@ -7,31 +7,6 @@ Analysis based on:
 
 ---
 
-## A-Frame Architecture is Detailed but Premature
-
-**Current:** 40+ lines on A-Frame architecture before the core pattern.
-
-**Problem:** A-Frame architecture is important context but not prerequisite knowledge for applying the pattern. It's "pull knowledge" (consult when needed) not "push knowledge" (must load first).
-
-Best practices say: *"SKILL.md serves as an overview that points Claude to detailed materials as needed."*
-
-**Options:**
-- [ ] Option A: Keep brief A-Frame summary in SKILL.md (2-3 lines), move detailed explanation to `references/architecture/a-frame.md`
-- [ ] Option B: Move A-Frame section AFTER the core pattern and examples, making it "additional context" rather than prerequisite
-
----
-
-## OutputListener Appears Without Introduction
-
-**Line 96:** `import { OutputListener } from "./output_listener.js";`
-
-**Problem:** OutputListener is used in the example before it's explained. The explanation comes later in "Three Supporting Patterns."
-
-- [x] Add a brief inline comment: `// Reusable tracking helper - see output-tracking.md`
-- [ ] Or: Reorder so "Output Tracking" brief intro appears before the CommandLine example
-
----
-
 ## Reference Navigation Could Be Clearer
 
 **Current:** The "Reference Files" section lists files with descriptions.
