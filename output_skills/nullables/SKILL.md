@@ -20,6 +20,37 @@ Do NOT use when:
 - You need to verify exact interaction sequences - use mocks
 - The external system is simple enough to use directly in tests
 
+## Structure Your Code: A-Frame
+
+Traditional layered architecture stacks Logic on top of Infrastructure. This causes problems: Logic depends on slow and brittle infrastructure, making it hard to test.
+
+A-Frame makes Logic and Infrastructure **peers** instead. Neither depends on the other. Logic stays pure, Infrastructure is isolated behind Nullables.
+
+```
+        Application (coordinates)
+            ↓              ↓
+Logic (pure, tested)    Infrastructure (Nullables)
+
+Both Logic and Infrastructure use Value Objects (shared types)
+```
+
+**Key rule:** Logic never imports Infrastructure directly. Application coordinates between them.
+
+This means:
+- **Logic** is pure functions - test directly, no Nullables needed
+- **Infrastructure** is wrapped with Nullables - test with `createNull()`
+- **Application** uses Logic Sandwich: read → process → write
+
+```javascript
+async processOrder(orderId) {
+  const order = await this._db.getOrder(orderId);     // READ (infrastructure)
+  const result = OrderLogic.validate(order);          // PROCESS (pure logic)
+  await this._db.save(result);                        // WRITE (infrastructure)
+}
+```
+
+For event-driven code (WebSockets, queues), each event handler is a Logic Sandwich. See [architecture.md](references/architecture.md) for Traffic Cop pattern.
+
 ## Core Pattern: Two Factory Methods
 
 Every infrastructure wrapper has two creation paths:
