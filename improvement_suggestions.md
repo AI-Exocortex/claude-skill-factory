@@ -62,24 +62,6 @@ Shore's article defines specific terms that the skill sometimes uses different n
 
 ---
 
-## Anti-Patterns Section Could Be Tighter
-
-**Current anti-patterns:**
-1. Using mock libraries
-2. Writing broad integration tests
-3. Testing interactions instead of outcomes
-4. Constructor does work
-5. Parameters at wrong abstraction level
-
-**Issues:**
-- "Constructor does work" is a general anti-pattern, not Nullables-specific
-- Could distinguish "general design anti-patterns" from "Nullables-specific anti-patterns"
-
-- [ ] Consider splitting: "These make Nullables impossible" vs "These undermine Nullables' benefits"
-- [ ] Or: Trim to focus on the Nullables-specific ones (mock libraries, interactions, abstraction level)
-
----
-
 ## Examples Follow "Good Example" Pattern - Consider Anti-Examples
 
 Best practices: *"Use principles + anti-examples, not good examples to copy (avoids collapsing solution space)"*
