@@ -8,11 +8,11 @@ The nullables skill is well-structured with good progressive disclosure. Main SK
 
 ## Issues
 
-### 2. No STARTER_CHARACTER
+### No STARTER_CHARACTER
 
 Other skills (tdd, refactoring) use visual indicators like 🔴🌱🌀 or 🟣. This skill lacks one, making it inconsistent with the skill family.
 
-### 3. Missing Workflow/Steps Section
+### Missing Workflow/Steps Section
 
 The TDD skill has clear phases: "Test Planning → Implementation Phase → Final Evaluation". Nullables is more reference-style without a clear "how to build your first Nullable" workflow.
 
@@ -26,13 +26,13 @@ Users would benefit from:
 5. Test the wrapper
 ```
 
-### 4. JavaScript-Only Examples in Main File
+### JavaScript-Only Examples in Main File
 
 All SKILL.md examples are JavaScript. Java appears only in embedded-stubs.md reference. No Python examples anywhere.
 
 Given Python's popularity for testing, this is a gap.
 
-### 5. Redundant Reference Links
+### Redundant Reference Links
 
 References are listed twice:
 - "Three Supporting Patterns" section (lines 165-215) with brief examples
@@ -40,7 +40,7 @@ References are listed twice:
 
 This creates confusion about which path to follow.
 
-### 6. A-Frame Architecture Fragmented
+### A-Frame Architecture Fragmented
 
 A-Frame is explained in:
 - SKILL.md (lines 23-52) - core concept
@@ -49,7 +49,7 @@ A-Frame is explained in:
 
 The relationship between these isn't clear. User might read SKILL.md and not realize they need logic-sandwich.md for depth.
 
-### 7. Anti-Patterns Section Too Brief
+### Anti-Patterns Section Too Brief
 
 Current anti-patterns (lines 217-255) are useful but brief. Missing common pitfalls:
 - Over-wrapping (wrapping things that don't need it)
@@ -57,7 +57,7 @@ Current anti-patterns (lines 217-255) are useful but brief. Missing common pitfa
 - Forgetting to test the wrapper itself
 - Nulling at wrong abstraction level
 
-### 8. Some Reference Files Are Long
+### Some Reference Files Are Long
 
 | File | Lines | Notes |
 |------|-------|-------|
@@ -67,11 +67,11 @@ Current anti-patterns (lines 217-255) are useful but brief. Missing common pitfa
 
 These approach the "consider splitting" threshold.
 
-### 9. Missing "When NOT to Use" for Supporting Patterns
+###  Missing "When NOT to Use" for Supporting Patterns
 
 Main Nullables section has clear "Do NOT use when" but the three supporting patterns (Output Tracking, Configurable Responses, Embedded Stubs) lack this guidance.
 
-### 10. Jest-Specific Pattern in test-patterns.md
+### Jest-Specific Pattern in test-patterns.md
 
 Line 322-330 mentions `expect.any(Number)` is Jest-specific. Good awareness, but the workaround shown is verbose. Could provide cleaner alternatives.
 
