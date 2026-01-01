@@ -1,11 +1,11 @@
 ---
 name: nullables
-description: Implements James Shore's Nullables pattern for testing without mocks. Use when testing infrastructure code, avoiding mock libraries, creating testable wrappers, or when user mentions "testing without mocks", "nullables", "output tracking", "configurable responses", or "embedded stub".
+description: Writes tests without mocks using James Shore's Nullables pattern. Use when writing tests and designing code for testability.
 ---
 
 # Nullables: Testing Without Mocks
 
-Nullables are production code with an "off" switch. Unlike mocks (test-only constructs), Nullables are real implementations with a factory method that disables external communication. This enables fast, reliable tests that exercise real code paths.
+Nullables are production code with an "off" switch for external communication. This enables **sociable tests**: tests that exercise real code paths, with only infrastructure I/O neutralized. No mock libraries needed. It also enables really fast and robust tests, which are extremely valuable feedback loops.
 
 ## When to Use Nullables
 
@@ -30,7 +30,7 @@ class Clock {
     return new Clock(Date);  // Real system clock
   }
 
-  static createNull(now = "2024-01-15T10:30:00Z") {
+  static createNull(now = "2020-01-01T00:00:00Z") {
     return new Clock(new StubbedDate(now));  // Controlled clock
   }
 
@@ -58,7 +58,7 @@ class StubbedDate {
 ## Complete Example: Command Line Wrapper
 
 ```javascript
-import { EventEmitter } from "node:events";
+import { OutputListener } from "./output_listener.js";
 
 export class CommandLine {
   static create() {
@@ -71,7 +71,7 @@ export class CommandLine {
 
   constructor(proc) {
     this._process = proc;
-    this._emitter = new EventEmitter();
+    this._listener = new OutputListener();
   }
 
   args() {
@@ -80,18 +80,11 @@ export class CommandLine {
 
   writeOutput(text) {
     this._process.stdout.write(text);
-    this._emitter.emit("output", text);
+    this._listener.emit(text);
   }
 
   trackOutput() {
-    const data = [];
-    const listener = (text) => data.push(text);
-    this._emitter.on("output", listener);
-    return {
-      data,
-      clear: () => { data.length = 0; },
-      stop: () => { this._emitter.off("output", listener); }
-    };
+    return this._listener.trackOutput();
   }
 }
 
@@ -103,7 +96,7 @@ class StubbedProcess {
     return ["node", "script.js", ...this._args];
   }
   get stdout() {
-    return { write() {} };  // Discards output
+    return { write() {} };
   }
 }
 ```
@@ -194,7 +187,11 @@ class StubbedHttp {  // Implements only what HttpClient actually uses
 
 See [references/embedded-stubs.md](references/embedded-stubs.md) for async patterns.
 
-## Common Anti-Patterns
+## Anti-Patterns
+
+**Using mock libraries** - Don't import sinon, jest.mock, etc. Nullables replace them entirely.
+
+**Writing broad integration tests** - Sociable unit tests with Nullables provide coverage without slow, flaky end-to-end tests.
 
 **Testing interactions instead of outcomes**
 ```javascript
@@ -232,9 +229,15 @@ LoginClient.createNull({ email: "user@example.com", verified: true });
 
 ## Reference Files
 
-For detailed patterns and complex scenarios:
+**Building Nullables:**
 - [references/infrastructure-wrappers.md](references/infrastructure-wrappers.md) - Building complete wrappers
 - [references/output-tracking.md](references/output-tracking.md) - Tracking writes and side effects
 - [references/configurable-responses.md](references/configurable-responses.md) - Controlling external inputs
 - [references/embedded-stubs.md](references/embedded-stubs.md) - Stubbing third-party code
-- [references/test-patterns.md](references/test-patterns.md) - Structuring tests effectively
+
+**Testing and Architecture:**
+- [references/test-patterns.md](references/test-patterns.md) - Structuring tests, Signature Shielding
+- [references/architecture.md](references/architecture.md) - A-Frame, Logic Sandwich, Traffic Cop patterns
+
+**Migrating Existing Code:**
+- [references/migration.md](references/migration.md) - Converting from mocks to Nullables

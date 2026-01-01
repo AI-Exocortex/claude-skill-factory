@@ -2,46 +2,98 @@
 
 Output Tracking observes what your code writes to external systems without performing real I/O. It answers: "What did my code do?" rather than "Did my code call this method?"
 
-## Basic Pattern
+## Contents
+
+- [The OutputListener Utility](#the-outputlistener-utility)
+- [Using OutputListener in Wrappers](#using-outputlistener-in-wrappers)
+- [Usage in Tests](#usage-in-tests)
+- [Track at the Right Level](#track-at-the-right-level)
+- [Multiple Trackers](#multiple-trackers)
+- [Testing Sequences](#testing-sequences)
+- [Combining with Configurable Responses](#combining-with-configurable-responses)
+
+## The OutputListener Utility
+
+Extract tracking logic into a reusable utility (recommended for all projects):
 
 ```javascript
 import { EventEmitter } from "node:events";
 
-class Logger {
-  constructor(stdout) {
-    this._stdout = stdout;
+export class OutputListener {
+  static create() {
+    return new OutputListener();
+  }
+
+  constructor() {
     this._emitter = new EventEmitter();
   }
 
+  emit(data) {
+    this._emitter.emit("output", data);
+  }
+
+  trackOutput() {
+    return new OutputTracker(this._emitter);
+  }
+}
+
+class OutputTracker {
+  constructor(emitter) {
+    this._emitter = emitter;
+    this._data = [];
+    this._listener = (item) => this._data.push(item);
+    this._emitter.on("output", this._listener);
+  }
+
+  get data() {
+    return this._data;
+  }
+
+  clear() {
+    const result = [...this._data];
+    this._data.length = 0;
+    return result;
+  }
+
+  stop() {
+    this._emitter.off("output", this._listener);
+  }
+}
+```
+
+## Using OutputListener in Wrappers
+
+```javascript
+import { OutputListener } from "./output_listener.js";
+
+class Logger {
   static create() {
     return new Logger(process.stdout);
   }
 
   static createNull() {
-    return new Logger({ write() {} });  // Discards output
+    return new Logger({ write() {} });
+  }
+
+  constructor(stdout) {
+    this._stdout = stdout;
+    this._listener = new OutputListener();
   }
 
   info(message) {
     const entry = { level: "info", message, timestamp: Date.now() };
     this._stdout.write(JSON.stringify(entry) + "\n");
-    this._emitter.emit("output", entry);
+    this._listener.emit(entry);
   }
 
   error(message, error) {
     const entry = { level: "error", message, error: error?.message };
     this._stdout.write(JSON.stringify(entry) + "\n");
-    this._emitter.emit("output", entry);
+    this._listener.emit(entry);
   }
 
   trackOutput() {
-    const data = [];
-    const listener = (entry) => data.push(entry);
-    this._emitter.on("output", listener);
-    return {
-      data,
-      clear: () => { data.length = 0; },
-      stop: () => { this._emitter.off("output", listener); }
-    };
+    return this._listener.trackOutput();
   }
 }
 ```
@@ -100,89 +152,28 @@ this._emitter.emit("output", {
 Sometimes you need separate trackers for different concerns:
 
 ```javascript
+import { OutputListener } from "./output_listener.js";
+
 class HttpClient {
   constructor(http) {
     this._http = http;
-    this._requestEmitter = new EventEmitter();
-    this._responseEmitter = new EventEmitter();
+    this._requestListener = new OutputListener();
+    this._responseListener = new OutputListener();
   }
 
   async request(options) {
-    this._requestEmitter.emit("output", options);
+    this._requestListener.emit(options);
     const response = await this._http.request(options);
-    this._responseEmitter.emit("output", response);
+    this._responseListener.emit(response);
     return response;
   }
 
   trackRequests() {
-    return this._createTracker(this._requestEmitter);
+    return this._requestListener.trackOutput();
   }
 
   trackResponses() {
-    return this._createTracker(this._responseEmitter);
-  }
-
-  _createTracker(emitter) {
-    const data = [];
-    const listener = (item) => data.push(item);
-    emitter.on("output", listener);
-    return {
-      data,
-      clear: () => { data.length = 0; },
-      stop: () => { emitter.off("output", listener); }
-    };
-  }
-}
-```
-
-## Reusable OutputTracker
-
-Extract the tracking logic into a reusable class:
-
-```javascript
-export class OutputTracker {
-  static create(emitter, eventName = "output") {
-    return new OutputTracker(emitter, eventName);
-  }
-
-  constructor(emitter, eventName) {
-    this._emitter = emitter;
-    this._eventName = eventName;
-    this._data = [];
-    this._listener = (item) => this._data.push(item);
-    this._emitter.on(this._eventName, this._listener);
-  }
-
-  get data() {
-    return this._data;
-  }
-
-  clear() {
-    this._data.length = 0;
-  }
-
-  stop() {
-    this._emitter.off(this._eventName, this._listener);
-  }
-}
-```
-
-Usage:
-
-```javascript
-class NetworkClient {
-  constructor(socket) {
-    this._socket = socket;
-    this._emitter = new EventEmitter();
-  }
-
-  send(message) {
-    this._socket.write(JSON.stringify(message));
-    this._emitter.emit("sent", message);
-  }
-
-  trackSentMessages() {
-    return OutputTracker.create(this._emitter, "sent");
+    return this._responseListener.trackOutput();
   }
 }
 ```

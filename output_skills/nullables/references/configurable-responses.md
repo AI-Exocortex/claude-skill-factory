@@ -2,16 +2,26 @@
 
 Configurable Responses control what your Nullable returns. They let tests specify external system behavior at the caller's abstraction level.
 
+## Contents
+
+- [Basic Patterns](#basic-patterns)
+- [Implementation: ConfigurableResponses Helper](#implementation-configurableresponses-helper)
+- [Using ConfigurableResponses in a Wrapper](#using-configurableresponses-in-a-wrapper)
+- [Abstraction Level](#abstraction-level)
+- [Error Simulation](#error-simulation)
+- [Hanging/Timeout Simulation](#hangingtimeout-simulation)
+- [Multiple Response Types](#multiple-response-types)
+
 ## Basic Patterns
 
 ### Single Response (Repeats Forever)
 
 ```javascript
-const clock = Clock.createNull("2024-01-15T10:00:00Z");
+const clock = Clock.createNull("2020-01-01T00:00:00Z");
 
-clock.now();  // "2024-01-15T10:00:00Z"
-clock.now();  // "2024-01-15T10:00:00Z" (same)
-clock.now();  // "2024-01-15T10:00:00Z" (same)
+clock.now();  // "2020-01-01T00:00:00Z"
+clock.now();  // "2020-01-01T00:00:00Z" (same)
+clock.now();  // "2020-01-01T00:00:00Z" (same)
 ```
 
 ### Response Sequence (Exhaustible)

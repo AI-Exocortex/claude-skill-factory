@@ -2,6 +2,20 @@
 
 Effective tests with Nullables follow specific patterns that differ from mock-based testing.
 
+## Contents
+
+- [Core Structure: Arrange-Act-Assert](#core-structure-arrange-act-assert)
+- [Helper Functions (Signature Shielding)](#helper-functions-signature-shielding)
+- [State-Based vs Interaction-Based](#state-based-vs-interaction-based)
+- [Sociable Tests](#sociable-tests)
+- [Overlapping Tests](#overlapping-tests)
+- [Testing Error Paths](#testing-error-paths)
+- [Testing Sequences](#testing-sequences)
+- [Testing Time-Dependent Code](#testing-time-dependent-code)
+- [Testing Event-Driven Code](#testing-event-driven-code)
+- [Narrow Integration Tests](#narrow-integration-tests)
+- [Assertion Patterns](#assertion-patterns)
+
 ## Core Structure: Arrange-Act-Assert
 
 ```javascript
@@ -161,7 +175,7 @@ it("creates user with validated data", async () => {
   assert.equal(response.status, 201);
   assert.deepEqual(dbWrites.data[0], {
     table: "users",
-    data: { email: "user@test.com", name: "Alice", created_at: expect.any(Date) }
+    data: { email: "user@test.com", name: "Alice" }
   });
 });
 
@@ -179,13 +193,23 @@ async function createUser({ body }) {
 }
 ```
 
+## Overlapping Tests
+
+With sociable tests, test coverage naturally overlaps. A bug in a shared dependency causes multiple test failures. This is a feature, not a bug:
+
+- **Mocks hide bugs** - When each test mocks its dependencies, a bug in real code might not surface until production.
+- **Overlapping tests surface bugs** - Multiple failures pinpoint the problem quickly: "All UserController tests failed → check UserController."
+- **Refactoring is safe** - Change implementation, run tests, see what breaks.
+
+If a change breaks many tests, check the shared code they exercise. The failing tests reveal your dependency graph.
+
 ## Testing Time-Dependent Code
 
 Use a nulled Clock:
 
 ```javascript
 it("marks items as expired after TTL", () => {
-  const clock = Clock.createNull("2024-01-15T10:00:00Z");
+  const clock = Clock.createNull("2020-01-01T00:00:00Z");
   const cache = new Cache(clock, { ttlMs: 60000 });
 
   cache.set("key", "value");
@@ -203,7 +227,7 @@ Clock with advanceable time:
 
 ```javascript
 class Clock {
-  static createNull(initialTime = "2024-01-01T00:00:00Z") {
+  static createNull(initialTime = "2020-01-01T00:00:00Z") {
     return new Clock(new ControllableTime(initialTime));
   }
 
@@ -298,9 +322,9 @@ assert.deepEqual(output.data, [expected]);
 assert.equal(output.data.length, 1);
 assert.equal(output.data[0].message, "expected");
 
-// Using patterns (if your assertion library supports it)
-assert.deepEqual(output.data[0], {
-  message: "expected",
-  timestamp: expect.any(Number)
-});
+// Ignoring dynamic fields (portable approach)
+const { timestamp, ...rest } = output.data[0];
+assert.deepEqual(rest, { message: "expected" });
 ```
+
+**Note:** `expect.any(Number)` is Jest-specific. For portable tests, extract and ignore dynamic fields as shown above, or use a library-specific matcher.

@@ -2,6 +2,17 @@
 
 Embedded Stubs are minimal implementations of third-party code that live inside your wrapper. They implement only the methods your wrapper actually uses.
 
+## Contents
+
+- [Placement](#placement)
+- [Why Embed?](#why-embed)
+- [Implement Only What You Use](#implement-only-what-you-use)
+- [Async Patterns](#async-patterns)
+- [Error Simulation](#error-simulation)
+- [Thin Wrapper Pattern (Static Languages)](#thin-wrapper-pattern-static-languages)
+- [Complex Stubs: File System Example](#complex-stubs-file-system-example)
+- [Testing the Stub Itself](#testing-the-stub-itself)
+
 ## Placement
 
 Embedded stubs belong in the same file as the wrapper, not in test files:
@@ -294,3 +305,12 @@ describe("StubbedFs", () => {
   });
 });
 ```
+
+## Avoid Over-Complicating Stubs
+
+Embedded Stubs should stay minimal. If your stub is becoming complex:
+
+1. **Test-drive through the wrapper's public interface** - Don't test the stub directly unless it has non-trivial logic
+2. **Implement only what's called** - If your wrapper uses 3 methods, the stub needs only those 3
+3. **Add complexity incrementally** - Start simple, add features as tests require them
+4. **Consider if you're stubbing too much** - A very complex stub might mean your wrapper is doing too much

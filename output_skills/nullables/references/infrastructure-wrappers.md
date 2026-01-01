@@ -2,6 +2,15 @@
 
 Infrastructure wrappers isolate external systems behind clean interfaces. Each wrapper is a single-responsibility class that presents your application's view of an external system.
 
+## Contents
+
+- [Structure](#structure)
+- [Building a Wrapper: Step by Step](#building-a-wrapper-step-by-step)
+- [Wrapper Composition](#wrapper-composition)
+- [Zero-Impact Instantiation](#zero-impact-instantiation)
+- [Parameterless Instantiation](#parameterless-instantiation)
+- [When NOT to Create a Wrapper](#when-not-to-create-a-wrapper)
+
 ## Structure
 
 ```
@@ -268,3 +277,18 @@ class App {
   }
 }
 ```
+
+## When NOT to Create a Wrapper
+
+Not everything needs a wrapper. Create wrappers for:
+- External I/O (network, filesystem, databases)
+- Non-deterministic operations (clocks, random numbers, UUIDs)
+- Expensive operations you want to avoid in tests
+
+Skip wrappers when:
+- **The dependency is already testable** - Pure functions, immutable data structures
+- **The dependency is fast and deterministic** - Math utilities, string formatters
+- **You're wrapping a wrapper** - Don't wrap your own abstractions; make them Nullable directly
+- **Tests can use the real thing** - In-memory databases, local file operations in temp directories
+
+**Rule of thumb:** If using the real dependency in tests is fast, deterministic, and has no side effects, skip the wrapper.
