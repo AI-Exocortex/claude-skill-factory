@@ -88,22 +88,6 @@ Best practices: *"Use principles + anti-examples, not good examples to copy (avo
 
 ---
 
-## The nullable_todo.md File Has Overlapping Suggestions
-
-The existing `nullable_todo.md` file has good suggestions that overlap with this analysis. Consider merging.
-
-Key overlapping points:
-- Description needs better trigger words (both agree)
-- SKILL.md structure/ordering (both agree)
-- A-Frame may be too detailed (both agree)
-- CommandLine example is long (both agree)
-- OutputListener needs introduction (both agree)
-
-- [ ] Merge this file with nullable_todo.md, keeping one authoritative list
-- [ ] Or: Delete nullable_todo.md after implementing suggestions
-
----
-
 ## Structural Recommendation: Proposed Reordering
 
 Current order front-loads architecture (A-Frame) before the actionable pattern.
