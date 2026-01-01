@@ -84,6 +84,7 @@ class StubbedDate {
   constructor(isoString) {
     this._time = new Date(isoString).getTime();
   }
+  
   toISOString() {
     return new Date(this._time).toISOString();
   }

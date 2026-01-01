@@ -21,15 +21,6 @@ Best practices say: *"SKILL.md serves as an overview that points Claude to detai
 
 ---
 
-## Core Pattern Section is Strong but Could Be Leaner
-
-The "Two Factory Methods" section is the heart of the skill. It's good but the Clock example could be tighter.
-
-- [ ] Consider trimming the StubbedDate class from the example (it's an implementation detail that distracts from the pattern)
-- [ ] Add a one-liner after the example emphasizing: "That's it. Real dependency in `create()`, stubbed dependency in `createNull()`"
-
----
-
 ## CommandLine Example is Verbose for SKILL.md
 
 **Current:** ~40 lines for a complete CommandLine wrapper.
