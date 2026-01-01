@@ -11,7 +11,7 @@ Analysis based on:
 
 **Current:** 40+ lines on A-Frame architecture before the core pattern.
 
-**Problem:** Someone wanting to write their first Nullable doesn't need the full architectural context. A-Frame is important but is "pull knowledge" (read when needed) not "push knowledge" (must know first).
+**Problem:** A-Frame architecture is important context but not prerequisite knowledge for applying the pattern. It's "pull knowledge" (consult when needed) not "push knowledge" (must load first).
 
 Best practices say: *"SKILL.md serves as an overview that points Claude to detailed materials as needed."*
 
@@ -48,38 +48,20 @@ Best practices: *"Keep SKILL.md body under 500 lines for optimal performance."* 
 
 **Line 96:** `import { OutputListener } from "./output_listener.js";`
 
-**Problem:** The reader encounters OutputListener in the example before understanding what it is. The explanation comes later in "Three Supporting Patterns."
+**Problem:** OutputListener is used in the example before it's explained. The explanation comes later in "Three Supporting Patterns."
 
 - [ ] Add a brief inline comment: `// OutputListener is a reusable helper - see output-tracking.md`
 - [ ] Or: Reorder so "Output Tracking" brief intro appears before the CommandLine example
 
 ---
 
-## Missing "Quick Start" For Immediate Action
+## Reference Navigation Could Be Clearer
 
-**Problem:** No step-by-step for someone wanting to try right now.
+**Current:** The "Reference Files" section lists files with descriptions.
 
-Best practices: *"Include both what the Skill does and when to use it"* - but also HOW to start.
+**For Claude:** When encountering edge cases (event-driven code, migration from mocks), Claude needs to know which reference to consult.
 
-- [ ] Add a 5-step Quick Start after the intro:
-  ```
-  ## Quick Start
-  1. Identify your infrastructure (HTTP, DB, files, clock)
-  2. Create a wrapper class with `create()` and `createNull()` factories
-  3. Inject the wrapper via constructor
-  4. In tests, use `createNull()` with configured responses
-  5. Call `trackOutput()` to verify what was written
-  ```
-
----
-
-## Reference Navigation Lacks Reading Order
-
-**Current:** The "Reference Files" section at the end lists files with descriptions but doesn't guide which to read first.
-
-**Suggestion:**
-- [ ] Add reading order guidance: "Start with `infrastructure-wrappers.md` to build your first Nullable"
-- [ ] Or: Group as "Start Here" vs "Deep Dives"
+- [ ] Consider grouping references by use case: "For event-driven code, see event-driven.md" rather than listing all files equally
 
 ---
 
@@ -107,13 +89,13 @@ Shore's article defines specific terms that the skill sometimes uses different n
 
 **Problem:** Shore explicitly discusses a key tradeoff: *"do you want that in your production code?"* - referring to embedded stubs and factory methods.
 
-This is honest guidance that helps users make informed decisions.
+**Why it matters for Claude:** Claude needs to know when Nullables are NOT appropriate so it doesn't suggest them in contexts where they'd be rejected.
 
 - [ ] Add a brief "Tradeoffs" section:
   ```
   ## Tradeoffs
 
-  Nullables put test-supporting code in production. The factory methods and embedded stubs ship with your app. This is intentional: they enable features like dry-run mode and cache warming. If your team forbids test code in production, Nullables aren't a fit.
+  Nullables put test-supporting code in production. The factory methods and embedded stubs ship with your app. This is intentional: they enable features like dry-run mode and cache warming. If the codebase forbids test code in production, Nullables aren't a fit.
   ```
 
 ---
@@ -153,7 +135,7 @@ Best practices: *"Use principles + anti-examples, not good examples to copy (avo
 
 **Current:** All examples are JavaScript.
 
-**Problem:** Users in Python, TypeScript, Java may wonder if the pattern applies.
+**Problem:** When Claude is working in Python, TypeScript, or Java, it should still apply this pattern.
 
 **Note:** The embedded-stubs.md already has a Java example (Thin Wrapper Pattern).
 
@@ -172,43 +154,26 @@ Key overlapping points:
 - A-Frame may be too detailed (both agree)
 - CommandLine example is long (both agree)
 - OutputListener needs introduction (both agree)
-- Missing Quick Start (both agree)
-- Reference navigation (both agree)
 
 - [ ] Merge this file with nullable_todo.md, keeping one authoritative list
 - [ ] Or: Delete nullable_todo.md after implementing suggestions
 
 ---
 
-## Consider Adding a "Philosophy" Section
-
-**Problem:** The skill teaches mechanics but the philosophy (sociable tests, state-based over interaction-based, overlapping coverage) could be more explicit.
-
-Shore's core argument: traditional mock-based tests *"lock in implementation details"* - Nullables test *"what was produced, not what methods were called"*.
-
-- [ ] Add a brief philosophy statement:
-  ```
-  ## Philosophy
-
-  Mocks verify method calls. Nullables verify outcomes. When you refactor internals, mock-based tests break. Nullables tests keep passing because they check what your code produces, not how it produces it.
-  ```
-
----
-
 ## Structural Recommendation: Proposed Reordering
 
-Based on analysis, here's a suggested SKILL.md flow:
+Current order front-loads architecture (A-Frame) before the actionable pattern.
 
+Suggested flow:
 ```
 1. Core Insight (2 lines) - "production code with an off switch"
-2. Quick Start (5 steps)
-3. Core Pattern: Two Factory Methods (trimmed example)
+2. When to Use / When NOT to Use
+3. Core Pattern: Two Factory Methods
 4. Testing with Nullables (brief example)
-5. When to Use / When NOT to Use
-6. Three Supporting Patterns (Output Tracking, Configurable Responses, Embedded Stubs - brief with links)
-7. A-Frame Architecture (condensed, or link to reference)
-8. Anti-Patterns (focused on Nullables-specific)
-9. Reference Navigation (with reading order)
+5. Three Supporting Patterns (brief with links)
+6. A-Frame Architecture (condensed, or moved to reference)
+7. Anti-Patterns
+8. Reference Navigation
 ```
 
 - [ ] Discuss reordering with Archie before implementing
@@ -218,22 +183,18 @@ Based on analysis, here's a suggested SKILL.md flow:
 ## Summary: Priority Order
 
 **Critical (affects triggering):**
-- [ ] Improve description with trigger words
+- [x] Improve description with trigger words (done)
 
-**High (affects usability):**
-- [ ] Add Quick Start section
+**High (affects Claude's application of the pattern):**
 - [ ] Lead with core insight ("production code with off switch")
 - [ ] Trim or relocate A-Frame section
 - [ ] Add OutputListener introduction before it's used
 
 **Medium (polish):**
-- [ ] Add reference reading order guidance
-- [ ] Add tradeoffs discussion
-- [ ] Consider adding philosophy section
+- [ ] Add tradeoffs discussion (so Claude knows when NOT to suggest Nullables)
 - [ ] Trim CommandLine example
 - [ ] Merge with nullable_todo.md
 
 **Low (nice to have):**
 - [ ] Note cross-language applicability
-- [ ] Add Shore's terminology where different
 - [ ] Tighten anti-patterns section
