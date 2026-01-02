@@ -94,5 +94,6 @@ Commit all `.approved.*` files.
 
 - [api.md](references/nodejs/api.md) - All verify functions, Options, combinations, Namer/Writer interfaces
 - [scrubbers.md](references/nodejs/scrubbers.md) - GUIDs, dates, regex patterns, combining scrubbers
-- [setup.md](references/nodejs/setup.md) - Mocha/Jest setup, reporters, CI config
+- [reporters.md](references/nodejs/reporters.md) - Diff tools, MultiReporter, custom reporters
+- [setup.md](references/nodejs/setup.md) - Mocha/Jest setup, CI config
 - [inline.md](references/nodejs/inline.md) - Not supported; alternatives (Jest snapshots, assertions)

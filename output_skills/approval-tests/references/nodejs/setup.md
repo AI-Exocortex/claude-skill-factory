@@ -138,36 +138,12 @@ approvals.configure({
 });
 ```
 
-## Selecting Reporters
-
-### By String Name
+## Reporters
 
 ```javascript
 approvals.configure({
-  reporters: ['BeyondCompare', 'vscode', 'gitdiff']
+  reporters: ['vscode', 'p4merge', 'gitdiff']
 });
 ```
 
-### With MultiReporter
-
-```javascript
-const { MultiReporter } = approvals.reporters;
-
-approvals.configure({
-  reporters: [new MultiReporter(['p4merge', 'copycommand'])]
-});
-```
-
-### Custom Reporter
-
-```javascript
-approvals.configure({
-  reporters: [{
-    name: 'my-reporter',
-    canReportOn: () => true,
-    report: (approved, received) => {
-      console.log(`Diff: ${approved} vs ${received}`);
-    }
-  }]
-});
-```
+For available reporters, MultiReporter, and custom reporters, see [reporters.md](reporters.md).

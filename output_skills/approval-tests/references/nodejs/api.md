@@ -139,42 +139,7 @@ approvals.configure({
 - `forceApproveAll` (boolean) - Auto-approve all (default: false)
 - `maxLaunches` (number) - Max reporter launches (default: 10)
 
-### Default Reporters
-```javascript
-['BeyondCompare', 'diffmerge', 'p4merge', 'tortoisemerge', 'nodediff', 'opendiff', 'gitdiff']
-```
-
-## Reporters
-
-### Available Reporters (strings)
-- `BeyondCompare`, `diffmerge`, `p4merge`, `tortoisemerge`
-- `nodediff` (console), `gitdiff` (console)
-- `vscode`, `vscodium`, `visualstudio`
-- `meld`, `kdiff3`, `vimdiff`
-- `copycommand` (CI-friendly)
-- `donothing`
-
-### MultiReporter
-```javascript
-const { MultiReporter } = approvals.reporters;
-
-approvals.configure({
-  reporters: [new MultiReporter(['p4merge', 'vscode', 'copycommand'])]
-});
-```
-
-### Custom Reporter
-```javascript
-const customReporter = {
-  name: 'custom',
-  canReportOn(filePath) {
-    return true;
-  },
-  report(approvedPath, receivedPath) {
-    // Launch diff tool or handle mismatch
-  }
-};
-```
+For reporters (diff tools, MultiReporter, custom reporters), see [reporters.md](reporters.md).
 
 ## Combination Testing (Jest)
 
