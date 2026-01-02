@@ -15,7 +15,8 @@ Nullables are production code with an "off switch" for infrastructure. They enab
 - **Sociable**: Tests use real dependencies, not mocks—only infrastructure I/O is neutralized
 - **State-based**: Assert on outputs and state, not on which methods were called
 
-No mock libraries needed.
+Nullables are solving the problem that using mocking libraries introduces: mocking libraries often couple tests to implementation (by verifying specific method calls).
+Test code using mocking libraries is brittle and breaks when code is refactored, even when behavior is unchanged.
 
 ## When to Use Nullables
 
