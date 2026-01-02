@@ -8,13 +8,6 @@
 
 - [ ] **Make A-Frame more prominent** — It's the architectural foundation but appears after examples. Move up or make clearer that this is the prerequisite pattern.
 
-- [ ] **Add a "Quick Start" workflow** — After reading, Claude should know the exact steps. Something like:
-  1. Identify infrastructure code
-  2. Create wrapper with create()/createNull()
-  3. Add embedded stub
-  4. Add output tracking
-  5. Write tests using createNull()
-
 ## Anti-Patterns Section
 
 - [ ] **Add "Stub Drift" anti-pattern** — Embedded stubs can diverge from real infrastructure behavior. Solution: Narrow Integration Tests.
