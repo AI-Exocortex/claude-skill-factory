@@ -20,8 +20,6 @@
 
 - [ ] **Extract the complete CommandLine example** — The 40-line example (lines 116-158) could be shortened to just show the pattern, with "See [building/infrastructure-wrappers.md] for complete example."
 
-- [ ] **Link to links.md from SKILL.md** — The links.md file exists but isn't referenced. Add a "Further Reading" section pointing to it.
-
 ## Structure Improvements
 
 - [ ] **Separate "thinking" from "building"** — The skill mixes philosophy with implementation. Consider reorganizing into:

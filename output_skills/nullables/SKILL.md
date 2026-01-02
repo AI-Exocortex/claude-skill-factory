@@ -203,6 +203,7 @@ Nullables enable a different approach:
   // GOOD: Use dependency's own method to build expected value
   assert.deepEqual(output.data, [logger.formatEntry("info", "Done")]);
   ```
+- **Narrow Integration Tests** — sociable tests verify logic, but how do you know your wrapper actually talks to real infrastructure correctly? Write a few focused tests per wrapper that hit real systems (real HTTP, real files, real database). Keep them isolated, run them separately, and use them to catch stub drift.
 
 ### Testing Techniques
 
@@ -210,7 +211,6 @@ See [test-patterns.md](references/test-patterns.md) for details and examples:
 
 - **Arrange-Act-Assert**: Structure tests as setup, execute, verify
 - **Signature Shielding**: Helper functions (like `run()` above) protect tests from constructor changes
-- **Narrow Integration Tests**: Test wrappers against real systems in isolation — sociable tests verify logic, but you need a few tests hitting real infrastructure to verify the wrapper actually works
 - **Testing Sequences**: Response arrays for retries, pagination
 - **Testing Time-Dependent Code**: Nulled Clock with `advance()`
 - **Behavior Simulation**: `simulateX()` methods for event-driven code
