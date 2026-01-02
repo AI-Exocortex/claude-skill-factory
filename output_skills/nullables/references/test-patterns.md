@@ -328,3 +328,7 @@ assert.deepEqual(rest, { message: "expected" });
 ```
 
 **Note:** `expect.any(Number)` is Jest-specific. For portable tests, extract and ignore dynamic fields as shown above, or use a library-specific matcher.
+
+---
+
+For the complete pattern language, see [Testing Without Mocks](https://www.jamesshore.com/v2/projects/nullables/testing-without-mocks) by James Shore (long!).
