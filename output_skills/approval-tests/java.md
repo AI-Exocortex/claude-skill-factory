@@ -80,15 +80,15 @@ CombinationApprovals.verifyAllCombinations(
 
 ## Java-Specific Notes
 
-**@UseReporter annotation** - Set reporter at class level:
+`@UseReporter` annotation sets reporter at class level:
 ```java
 @UseReporter(Junit5Reporter.class)
 public class MyTest { }
 ```
 
-**JUnit 5** - Recommended. Use `Junit5Reporter`.
+JUnit 5 recommended. Use `Junit5Reporter`.
 
-**Lambda functions** - Java 8+ required for formatter lambdas.
+Java 8+ required for formatter lambdas.
 
 ## Git Setup
 
