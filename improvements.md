@@ -1,11 +1,5 @@
 # Nullables Skill Improvements
 
-## Progressive Disclosure
-
-- [x] ~~**Move ConfigurableResponses helper to reference**~~ — Already correct: SKILL.md shows only usage examples, implementation is in reference.
-
-- [x] **Extract the complete CommandLine example** — Shortened from 43 to 23 lines, showing just the pattern with OutputListener integration.
-
 ## Structure Improvements
 
 - [ ] **Separate "thinking" from "building"** — The skill mixes philosophy with implementation. Consider reorganizing into:
