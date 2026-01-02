@@ -72,7 +72,7 @@ description: [What it does]. Use when [trigger phrases user would say].
 
 **Body:**
 - Start with `STARTER_CHARACTER = [emoji]` — This signals when the skill is active. Pick an emoji that represents the skill's purpose as much as possible.
-- Concise instructions. Assume Claude is smart.
+- Concise instructions. Assume Claude is smart, but help guide and focus it by providing good order and progressive disclosure.
 - Use principles + anti-examples, not good examples to copy (avoids collapsing solution space)
 - Avoid markdown tables - use lists or prose instead (tables require rendering to read easily)
 
