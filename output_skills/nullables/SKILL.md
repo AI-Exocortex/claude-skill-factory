@@ -26,9 +26,7 @@ Use Nullables when:
 - Mock setup is becoming complex or brittle
 - You need tests that run fast without real I/O
 
-Do NOT use when:
-- Testing pure logic (no infrastructure) — just test directly
-- The external system is simple enough to use directly in tests
+Skip Nullables for pure logic with no infrastructure — just test directly.
 
 ## Getting Started
 

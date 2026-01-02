@@ -1,19 +1,5 @@
 # Nullables Skill Improvements
 
-## SKILL.md Conciseness (Context Management)
-
-- [ ] **Shorten the "When to Use" section** — The "Do NOT use when" items are obvious (pure logic doesn't need Nullables). Could be one line.
-
-## Missing Concepts from James Shore
-
-- [x] **Emphasize "production code, not test code"** — The key insight that Nullables are shippable production artifacts (useful for dry-run mode, cache warming) is mentioned once but deserves more prominence. This is the philosophical core.
-
-- [x] **Expand Paranoic Telemetry** — Currently just a bullet point. Add brief explanation: "Assume everything fails. Test error paths, timeouts, and network failures as thoroughly as happy paths."
-
-- [x] **Clarify Collaborator-Based Isolation** — The phrase appears in test-patterns.md but SKILL.md only hints at it. Add explicit guidance: "Use dependencies' own tracking methods in assertions rather than hardcoding expected values."
-
-- [ ] **Promote Narrow Integration Tests** — These are mentioned but buried. They're essential: sociable tests verify logic, but you need a few tests hitting real infrastructure to verify wrappers actually work.
-
 ## Progressive Disclosure
 
 - [ ] **Move ConfigurableResponses helper to reference** — The full implementation (lines in configurable-responses.md) is good, but SKILL.md shows too much of it inline. Link instead.
@@ -54,12 +40,6 @@
 - [ ] **Show failure case in main example** — Current CommandLine example only shows success. Add one test showing error configuration.
 
 - [ ] **Add Python example** — All examples are JavaScript. The pattern is language-agnostic; showing a second language would reinforce this.
-
-## Terminology
-
-- [x] **Decide on "Nullable" vs "Nullable Infrastructure"** — Be consistent. Shore uses both but the skill should pick one.
-
-- [x] **Clarify "sociable" vs "solitary" upfront** — These terms appear without definition. Brief explanation would help.
 
 ## Output Tracking Reference
 
