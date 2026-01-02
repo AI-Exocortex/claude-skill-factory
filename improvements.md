@@ -10,7 +10,7 @@
 
 - [x] **Expand Paranoic Telemetry** — Currently just a bullet point. Add brief explanation: "Assume everything fails. Test error paths, timeouts, and network failures as thoroughly as happy paths."
 
-- [ ] **Clarify Collaborator-Based Isolation** — The phrase appears in test-patterns.md but SKILL.md only hints at it. Add explicit guidance: "Use dependencies' own tracking methods in assertions rather than hardcoding expected values."
+- [x] **Clarify Collaborator-Based Isolation** — The phrase appears in test-patterns.md but SKILL.md only hints at it. Add explicit guidance: "Use dependencies' own tracking methods in assertions rather than hardcoding expected values."
 
 - [ ] **Promote Narrow Integration Tests** — These are mentioned but buried. They're essential: sociable tests verify logic, but you need a few tests hitting real infrastructure to verify wrappers actually work.
 

@@ -12,7 +12,7 @@ External I/O is slow and flaky. Tests that hit real databases, APIs, or file sys
 Nullables are production code with an "off switch" for infrastructure - not test doubles, but real code you can ship (useful for dry-run modes, cache warming, offline operation). 
 They enable **narrow, sociable, state-based tests**:
 - **Narrow**: Each test focuses on a specific class or module, not broad end-to-end flows
-- **Sociable**: Tests use real dependencies, not mocks—only infrastructure I/O is neutralized
+- **Sociable**: Tests use real dependencies, not mocks—only infrastructure I/O is neutralized. (Contrast with "solitary" tests that mock everything, isolating the class under test.)
 - **State-based**: Assert on outputs and state, not on which methods were called
 
 Nullables are solving the problem that using mocking libraries introduces: mocking libraries often couple tests to implementation (by verifying specific method calls).
@@ -195,7 +195,14 @@ Nullables enable a different approach:
 - **Sociable, not solitary** — tests use real dependencies; only infrastructure is nulled
 - **Overlapping coverage** — when tests share real code, bugs cause multiple failures, pinpointing the problem
 - **Paranoic Telemetry** — assume everything will eventually fail. Test error paths, timeouts, and network failures as thoroughly as happy paths. Configure Nullables to return errors, simulate hanging requests, and exhaust retry limits. If your infrastructure can fail in production, test that failure mode.
-- **Collaborator-Based Isolation** — use dependencies' own tracking methods in assertions rather than hardcoding expectations; tests stay resilient when implementation changes
+- **Collaborator-Based Isolation** — use dependencies' own tracking methods in assertions rather than hardcoding expectations. When the dependency's format changes, tests update automatically:
+  ```javascript
+  // BAD: Hardcoded expectation breaks if log format changes
+  assert.deepEqual(output.data, [{ level: "info", message: "Done", ts: 123 }]);
+
+  // GOOD: Use dependency's own method to build expected value
+  assert.deepEqual(output.data, [logger.formatEntry("info", "Done")]);
+  ```
 
 ### Testing Techniques
 
