@@ -83,9 +83,9 @@ def test_pricing():
 
 Tests all 12 combinations in one approval file.
 
-### Multiple scenarios in one test?
+### Multiple scenarios per test
 
-Use `NamerFactory.with_parameters()` for separate approval files per scenario. See [patterns.md](references/python/patterns.md) for details.
+`NamerFactory.with_parameters()` creates separate approval files per scenario. See [patterns.md](references/python/patterns.md).
 
 ## Git Setup
 
