@@ -13,6 +13,7 @@ Approval tests verify complex output by comparing against a saved "golden master
 
 **Use approval tests when:**
 - Output is complex (JSON, XML, formatted text, multiple fields)
+- Output is visual (images, ascii, outputs of APIs)
 - Characterizing legacy code behavior before refactoring
 - Testing combinations of inputs
 - Assertions would be tedious or brittle
