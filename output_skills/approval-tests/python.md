@@ -65,16 +65,16 @@ Commit all `.approved.*` files.
 
 ## When to Read More
 
-**Need a specific verify function?** → [API Reference](references/python/api.md)
+Need a specific verify function? → [API Reference](references/python/api.md)
 
-**Testing legacy code or state machines?** → [Testing Patterns](references/python/patterns.md)
+Testing legacy code or state machines? → [Testing Patterns](references/python/patterns.md)
 
-**Testing many input combinations?** → [Combination Testing](references/python/combinations.md)
+Testing many input combinations? → [Combination Testing](references/python/combinations.md)
 
-**Dealing with timestamps, GUIDs, random values?** → [Scrubbers](references/python/scrubbers.md)
+Dealing with timestamps, GUIDs, random values? → [Scrubbers](references/python/scrubbers.md)
 
-**Want approvals in docstrings?** → [Inline Approvals](references/python/inline.md)
+Want approvals in docstrings? → [Inline Approvals](references/python/inline.md)
 
-**Verifying log output?** → [Logging Verification](references/python/logging.md)
+Verifying log output? → [Logging Verification](references/python/logging.md)
 
-**Setting up reporters or config?** → [Setup & Configuration](references/python/setup.md)
+Setting up reporters or config? → [Setup & Configuration](references/python/setup.md)
