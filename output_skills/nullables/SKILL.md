@@ -35,6 +35,8 @@ For when NOT to create a wrapper (avoiding over-engineering), see [infrastructur
 
 For codebases with existing mocks, see [migration.md](references/migration.md) for incremental conversion strategies.
 
+**Grow Evolutionary Seeds**: For greenfield code, start with hardcoded implementations. Add infrastructure wrappers incrementally as tests demand them—don't over-engineer upfront.
+
 ## Structure Your Code: A-Frame
 
 Traditional layered architecture stacks Logic on top of Infrastructure. This causes problems: Logic depends on slow and brittle infrastructure, making it hard to test. With nullables, logic never imports Infrastructure directly. This is the approach that makes Nullables work well - you can swap real infrastructure for nulled versions without touching Logic.
@@ -193,6 +195,7 @@ Nullables enable a different approach:
 - **State-based, not interaction-based** — verify what was produced, not which methods were called
 - **Sociable, not solitary** — tests use real dependencies; only infrastructure is nulled
 - **Overlapping coverage** — when tests share real code, bugs cause multiple failures, pinpointing the problem
+- **Paranoic Telemetry** — assume everything fails; test error paths, timeouts, and network failures extensively
 
 ### Testing Techniques
 
