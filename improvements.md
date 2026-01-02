@@ -2,9 +2,9 @@
 
 ## Progressive Disclosure
 
-- [ ] **Move ConfigurableResponses helper to reference** — The full implementation (lines in configurable-responses.md) is good, but SKILL.md shows too much of it inline. Link instead.
+- [x] ~~**Move ConfigurableResponses helper to reference**~~ — Already correct: SKILL.md shows only usage examples, implementation is in reference.
 
-- [ ] **Extract the complete CommandLine example** — The 40-line example (lines 116-158) could be shortened to just show the pattern, with "See [building/infrastructure-wrappers.md] for complete example."
+- [x] **Extract the complete CommandLine example** — Shortened from 43 to 23 lines, showing just the pattern with OutputListener integration.
 
 ## Structure Improvements
 

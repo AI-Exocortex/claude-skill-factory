@@ -109,53 +109,30 @@ static createNull() {
 const clock = new Clock(new StubbedDate("2020-01-01"));  // Leaks internals to callers
 ```
 
-## Complete Example: Command Line Wrapper
+## Example: Command Line Wrapper
+
+Same pattern, with [Output Tracking](references/building/output-tracking.md) to observe what was written:
 
 ```javascript
-import { OutputListener } from "./output_listener.js";  // Records what was written; see output-tracking.md for implementation
-
 export class CommandLine {
-  static create() {
-    return new CommandLine(process);
-  }
-
-  static createNull({ args = [] } = {}) {
-    return new CommandLine(new StubbedProcess(args));
-  }
+  static create() { return new CommandLine(process); }
+  static createNull({ args = [] } = {}) { return new CommandLine(new StubbedProcess(args)); }
 
   constructor(proc) {
     this._process = proc;
-    this._listener = new OutputListener();
-  }
-
-  args() {
-    return this._process.argv.slice(2);
+    this._listener = new OutputListener();  // See output-tracking.md
   }
 
   writeOutput(text) {
     this._process.stdout.write(text);
-    this._listener.emit(text);
+    this._listener.emit(text);  // Record for tests
   }
 
-  trackOutput() {
-    return this._listener.trackOutput();
-  }
-}
-
-class StubbedProcess {
-  constructor(args) {
-    this._args = args;
-  }
-  get argv() {
-    return ["node", "script.js", ...this._args];
-  }
-  get stdout() {
-    return { write() {} };
-  }
+  trackOutput() { return this._listener.trackOutput(); }
 }
 ```
 
-For step-by-step wrapper construction and when NOT to wrap, see [infrastructure-wrappers.md](references/building/infrastructure-wrappers.md).
+For complete wrapper construction with embedded stubs, see [infrastructure-wrappers.md](references/building/infrastructure-wrappers.md).
 
 ## Testing with Nullables
 
