@@ -116,4 +116,4 @@ Commit all `.approved.*` files.
 - [setup.md](references/java/setup.md) - JUnit 4/5 setup, reporter selection, dynamic tests, Kotlin support
 - [inline.md](references/java/inline.md) - Text blocks for inline approvals, InlineOptions modes
 - [logging.md](references/java/logging.md) - ConsoleOutput for System.out/err verification
-- [advanced.md](references/java/advanced.md) - NamerFactory, PackageSettings, OS/machine-specific tests
+- [advanced.md](references/java/advanced.md) - NamerFactory, PackageSettings, OS/machine-specific tests, common mistakes
