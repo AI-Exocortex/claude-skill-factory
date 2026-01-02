@@ -309,6 +309,6 @@ LoginClient.createNull({ httpResponse: { status: 200, body: '{"email":"x"}' } })
 LoginClient.createNull({ email: "user@example.com", verified: true });
 ```
 
-**Stubs in test files** - Stubs should be embedded in production code alongside the wrapper, not scattered in test files. This keeps them maintained and discoverable. See [embedded-stubs.md](references/building/embedded-stubs.md).
+**Stubs in test files** - Stubs should be embedded in production code alongside the wrapper (at the end of file, after production code), not scattered in test files. This keeps them maintained and discoverable. See [embedded-stubs.md](references/building/embedded-stubs.md).
 
 **Mocking your own code** - Only wrap third-party code and infrastructure. Your own classes don't need stubs—either make them Nullable directly, or null their dependencies. If you're writing a stub for your own class, you're probably doing it wrong.
