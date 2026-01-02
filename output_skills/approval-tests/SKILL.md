@@ -1,6 +1,6 @@
 ---
 name: approval-tests
-description: Write approval tests (snapshot testing) for Python, JavaScript/TypeScript, or Java. Use when verifying complex output, testing with golden masters, or working with .approved/.received files.
+description: Writes approval tests (snapshot testing) for Python, JavaScript/TypeScript, or Java. Use when verifying complex output, testing with golden masters, or working with .approved/.received files.
 ---
 
 # Approval Tests

@@ -210,7 +210,7 @@ description: Write approval tests (snapshot testing) for Python, JavaScript/Type
   - Source: `/Users/ladak/workspace/knowledge/references-for-skills/approvals/`
 - [x] **Phase 3: Setup References** - Installation and framework integration per language
 - [x] **Phase 4: Advanced Pattern References** - Inline approvals, scrubbers, combinations
-- [ ] **Phase 5: Review & Iterate** - Check against best-practices.md, test in real usage
+- [x] **Phase 5: Review & Iterate** - Check against best-practices.md, test in real usage
 
 ---
 
