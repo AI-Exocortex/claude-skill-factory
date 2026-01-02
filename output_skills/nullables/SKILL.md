@@ -264,7 +264,7 @@ verify(logger).info("message");
 assert.deepEqual(logOutput.data, [{ level: "info", message: "message" }]);
 ```
 
-**Constructor connects to infrastructure**
+**Constructor connects to infrastructure** (violates Zero-Impact Instantiation)
 Problem: makes it impossible to decouple your logic from brittle slow infrastructure. 
 
 ```javascript
