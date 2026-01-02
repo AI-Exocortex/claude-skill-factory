@@ -122,6 +122,53 @@ verify(result, options=Options()
     .for_file.with_additional_information("scenario1"))
 ```
 
+## Multiple Approvals Per Test
+
+When you need separate approval files for different scenarios in one test:
+
+```python
+from approvaltests.namer import NamerFactory
+
+def test_user_states():
+    verify(user_before, options=NamerFactory.with_parameters("before"))
+    verify(user_after, options=NamerFactory.with_parameters("after"))
+```
+
+Creates: `test_user_states.before.approved.txt` and `test_user_states.after.approved.txt`
+
+For non-blocking verification (run all, report all failures):
+
+```python
+from approvaltests.asserts import gather_all_exceptions_and_throw
+
+gather_all_exceptions_and_throw(
+    scenarios,
+    lambda s: verify(process(s), options=NamerFactory.with_parameters(s))
+)
+```
+
+See Python details: [python/advanced.md](../python/advanced.md)
+
+## Verifying Logs and Results
+
+When you need both log output and return value verified:
+
+**Option 1: Log the result too** (single approval file)
+```python
+with verify_logging():
+    result = process_data()
+    logging.info(f"result = {result}")
+```
+
+**Option 2: Separate files**
+```python
+with verify_logging(options=NamerFactory.with_parameters("logs")):
+    result = process_data()
+verify(result)  # Separate approval file
+```
+
+See Python details: [python/logging.md](../python/logging.md)
+
 ## Tips
 
 1. **One approval per behavior** - Don't verify unrelated things together
