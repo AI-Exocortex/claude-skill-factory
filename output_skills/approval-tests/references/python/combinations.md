@@ -133,12 +133,13 @@ def format_result(result):
         return f"${result:.2f}"
     return str(result)
 
-verify_all_combinations_with_labeled_input(
-    calculate_price,
-    size=["S", "M", "L"],
-    quantity=[1, 10],
-    formatter=format_result,
-)
+def test_pricing():
+    verify_all_combinations_with_labeled_input(
+        calculate_price,
+        size=["S", "M", "L"],
+        quantity=[1, 10],
+        formatter=format_result,
+    )
 ```
 
 ## When to Use Which
