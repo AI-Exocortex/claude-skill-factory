@@ -89,3 +89,4 @@ Commit all `.approved.*` files.
 - [Logging Verification](references/python/logging.md) - Test log output with SimpleLogger
 - [Setup & Configuration](references/python/setup.md) - pytest plugin, reporters
 - [Configuration](references/python/advanced.md) - Config files, default reporters
+- [Source Links](references/python/links.md) - Official repo, key source files
