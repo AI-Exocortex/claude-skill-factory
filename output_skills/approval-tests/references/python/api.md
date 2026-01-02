@@ -190,15 +190,13 @@ verify(data, options=options)
 
 ### Methods
 
-| Method | Purpose |
-|--------|---------|
-| `with_reporter(reporter)` | Set failure reporter |
-| `with_scrubber(fn)` | Set scrubber function |
-| `add_scrubber(fn)` | Chain additional scrubber |
-| `with_namer(namer)` | Custom file naming |
-| `with_comparator(cmp)` | Custom comparison logic |
-| `for_file.with_extension(".ext")` | Set file extension |
-| `inline(inline_options)` | Enable inline approvals |
+- `with_reporter(reporter)` - Set failure reporter
+- `with_scrubber(fn)` - Set scrubber function
+- `add_scrubber(fn)` - Chain additional scrubber
+- `with_namer(namer)` - Custom file naming
+- `with_comparator(cmp)` - Custom comparison logic
+- `for_file.with_extension(".ext")` - Set file extension
+- `inline(inline_options)` - Enable inline approvals
 
 ## Storyboard
 

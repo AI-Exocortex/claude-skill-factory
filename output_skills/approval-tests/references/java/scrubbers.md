@@ -42,14 +42,14 @@ Output: `created at [Date1]`
 
 #### Supported Date Formats
 
-| Example | Description |
-|---------|-------------|
-| `23:30:00` | Time only |
-| `2024-12-17` | ISO date |
-| `2020-09-10T08:07:89Z` | ISO 8601 |
-| `Tue May 13 16:30:00 2014` | Day Mon DD HH:MM:SS YYYY |
-| `May 13, 2014 11:30:00 PM PST` | Full with timezone |
-| And 12+ more... | |
+Pass an example date to `getScrubberFor()`:
+
+- `23:30:00` - Time only
+- `2024-12-17` - ISO date
+- `2020-09-10T08:07:89Z` - ISO 8601
+- `Tue May 13 16:30:00 2014` - Day Mon DD HH:MM:SS YYYY
+- `May 13, 2014 11:30:00 PM PST` - Full with timezone
+- And 12+ more formats supported
 
 #### Custom Date Format
 
@@ -163,9 +163,7 @@ Scrubber scrubber = Scrubbers.scrubAll(
 
 ## Built-in Utility Scrubbers
 
-| Method | Purpose |
-|--------|---------|
-| `Scrubbers.scrubGuid(input)` | Scrub UUIDs |
-| `DateScrubber.getScrubberForTimestamp()` | Java Timestamp |
-| `DateScrubber.getScrubberForSqlDate()` | SQL Date |
-| `DateScrubber.getScrubberForDate()` | Java Date |
+- `Scrubbers.scrubGuid(input)` - Scrub UUIDs
+- `DateScrubber.getScrubberForTimestamp()` - Java Timestamp
+- `DateScrubber.getScrubberForSqlDate()` - SQL Date
+- `DateScrubber.getScrubberForDate()` - Java Date

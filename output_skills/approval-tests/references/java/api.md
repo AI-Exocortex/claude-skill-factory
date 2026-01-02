@@ -116,14 +116,12 @@ Approvals.verify(result, options);
 
 ### Methods
 
-| Method | Purpose |
-|--------|---------|
-| `withReporter(reporter)` | Set failure reporter |
-| `withScrubber(scrubber)` | Set scrubber function |
-| `inline(expected)` | Use inline approvals |
-| `forFile().withExtension(".ext")` | Set file extension |
-| `forFile().withBaseName(name)` | Custom base filename |
-| `forFile().withAdditionalInformation(info)` | Add info to filename |
+- `withReporter(reporter)` - Set failure reporter
+- `withScrubber(scrubber)` - Set scrubber function
+- `inline(expected)` - Use inline approvals
+- `forFile().withExtension(".ext")` - Set file extension
+- `forFile().withBaseName(name)` - Custom base filename
+- `forFile().withAdditionalInformation(info)` - Add info to filename
 
 ## File Extension Options
 
@@ -141,14 +139,12 @@ Options options = new Options()
 
 ### Common Reporters
 
-| Reporter | Purpose |
-|----------|---------|
-| `Junit4Reporter` | JUnit 4 integration |
-| `Junit5Reporter` | JUnit 5 integration |
-| `DiffReporter` | Opens diff tool |
-| `QuietReporter` | No output, just fails |
-| `AutoApproveReporter` | Auto-approve all |
-| `ClipboardReporter` | Copy command to clipboard |
+- `Junit4Reporter` - JUnit 4 integration
+- `Junit5Reporter` - JUnit 5 integration
+- `DiffReporter` - Opens diff tool
+- `QuietReporter` - No output, just fails
+- `AutoApproveReporter` - Auto-approve all
+- `ClipboardReporter` - Copy command to clipboard
 
 ### Using Reporters
 

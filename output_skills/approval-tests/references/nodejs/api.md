@@ -112,13 +112,11 @@ verify(data, options);
 
 ### Methods
 
-| Method | Purpose |
-|--------|---------|
-| `withScrubber(fn)` | Set scrubber function |
-| `withReporter(reporter)` | Set reporter |
-| `withNamer(namer)` | Custom naming |
-| `forFile().withFileExtension('.ext')` | Set file extension |
-| `withConfig(modifier)` | Modify config |
+- `withScrubber(fn)` - Set scrubber function
+- `withReporter(reporter)` - Set reporter
+- `withNamer(namer)` - Custom naming
+- `forFile().withFileExtension('.ext')` - Set file extension
+- `withConfig(modifier)` - Modify config
 
 ## Configuration
 
@@ -134,14 +132,12 @@ approvals.configure({
 
 ### Config Options
 
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `reporters` | string[] | See below | Diff tools to try |
-| `normalizeLineEndingsTo` | boolean\|string | false | '\n' or '\r\n' |
-| `appendEOL` | boolean | true | Add EOL at end |
-| `stripBOM` | boolean | false | Remove BOM |
-| `forceApproveAll` | boolean | false | Auto-approve all |
-| `maxLaunches` | number | 10 | Max reporter launches |
+- `reporters` (string[]) - Diff tools to try (default: see below)
+- `normalizeLineEndingsTo` (boolean|string) - '\n' or '\r\n' (default: false)
+- `appendEOL` (boolean) - Add EOL at end (default: true)
+- `stripBOM` (boolean) - Remove BOM (default: false)
+- `forceApproveAll` (boolean) - Auto-approve all (default: false)
+- `maxLaunches` (number) - Max reporter launches (default: 10)
 
 ### Default Reporters
 ```javascript

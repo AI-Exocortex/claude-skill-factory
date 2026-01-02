@@ -59,14 +59,14 @@ verify(
 
 ### Supported Date Formats
 
-| Example | Pattern |
-|---------|---------|
-| `23:30:00` | HH:MM:SS |
-| `2020-02-02` | YYYY-MM-DD |
-| `2020-09-10T08:07:89Z` | ISO 8601 |
-| `Tue May 13 16:30:00 2014` | Day Mon DD HH:MM:SS YYYY |
-| `May 13, 2014 11:30:00 PM PST` | Mon DD, YYYY HH:MM:SS AM/PM TZ |
-| And 10+ more... | |
+Pass an example date to `get_scrubber_for()`:
+
+- `23:30:00` - HH:MM:SS
+- `2020-02-02` - YYYY-MM-DD
+- `2020-09-10T08:07:89Z` - ISO 8601
+- `Tue May 13 16:30:00 2014` - Day Mon DD HH:MM:SS YYYY
+- `May 13, 2014 11:30:00 PM PST` - Mon DD, YYYY HH:MM:SS AM/PM TZ
+- And 10+ more formats supported
 
 ### Custom Date Format
 
