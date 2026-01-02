@@ -22,8 +22,8 @@ from approvaltests.scrubbers import (
     scrub_all_dates,
     scrub_all_guids,
     combine_scrubbers,
-    create_line_scrubber,
 )
+from approvaltests.scrubbers.scrubbers import create_line_scrubber
 from approvaltests.scrubbers.date_scrubber import DateScrubber
 ```
 
