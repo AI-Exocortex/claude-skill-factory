@@ -145,3 +145,11 @@ Commit `.approved.*` files to version control.
 ## Python Versions
 
 Supports: 3.8, 3.9, 3.10, 3.11, 3.12, 3.13, 3.14
+
+## Gotchas
+
+### PyCharm Strips Trailing Whitespace
+
+PyCharm auto-removes trailing whitespace on save, causing approval files to mismatch.
+
+Fix: File → Settings → Editor → General → On Save → uncheck "Remove trailing spaces"
