@@ -71,6 +71,7 @@ description: [What it does]. Use when [trigger phrases user would say].
 - Description: Third person, specific, includes trigger words. This is the primary triggering mechanism.
 
 **Body:**
+- Start with `STARTER_CHARACTER = [emoji]` — This signals when the skill is active. Pick an emoji that represents the skill's purpose.
 - Concise instructions. Assume Claude is smart.
 - Use principles + anti-examples, not good examples to copy (avoids collapsing solution space)
 - Avoid markdown tables - use lists or prose instead (tables require rendering to read easily)
