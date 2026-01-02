@@ -6,12 +6,12 @@ Understand very well how to create Claude Code skills:
 
 Also note [important.md](important.md) and make sure to follow what it says.
 
-- The skill we're improving is [approval-tests](output_skills/approval-tests) for javascript/ts.
-- We already improved it for python. You can double check what we have done for python and use the same approach for js/ts.
+- The skill we're improving is [approval-tests](output_skills/approval-tests) for Java.
+- We already improved it for python. You can double check what we have done for python and use the same approach for Java. We also already did this for js/ts approvals if you want to check those.
 
 Once you're ready, you can analyze what's currently in the skill and make yourself a plan of how to improve it further (you can use todo tool you have you create a temporary todo file in the root), taking into account best practices of creating Claude Code skills and important considerations from context management as a guidance.
 
-You can teach yourself more about js/ts approvaltests by using resources in links.md
+You can teach yourself more about Java approvaltests by using resources in links.md
 
 Once you have an imporvement plan, work through it and implement until you see no more things to improve. Take your time, we're not rushing, the goal is to make it really really good.
 
@@ -19,3 +19,10 @@ Commit every improvement as a separate commit.
 
 I want you to focus on thinking about what the user needs to know about this - the user is Claude Code!
 
+Once you finished learning about what's needed, use the following process:
+1. Invoke the refinement-loop skill
+2. After reading it, make these adjustments for this session:
+   - Instead of writing iterations to playground/{tag}-N.md files, use commits
+   - Instead of temporary files, edit the real skill files directly
+   - Each commit = one iteration
+3. Apply this adjusted process to improve the target skill
