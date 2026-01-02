@@ -131,49 +131,11 @@ verify_binary(image_bytes, ".png")
 
 ## Combination Testing
 
-### verify_all_combinations()
-```python
-def verify_all_combinations(
-    function_under_test: Callable,
-    input_arguments: Sequence[Sequence[Any]],
-    *,
-    options: Optional[Options] = None,
-) -> None
-```
-Test all combinations of inputs.
+See [combinations.md](combinations.md) for full patterns.
 
-```python
-verify_all_combinations(
-    calculate_price,
-    [
-        ["small", "medium", "large"],  # sizes
-        [1, 5, 10],                     # quantities
-    ]
-)
-# Tests: calculate_price("small", 1), calculate_price("small", 5), ...
-```
-
-### verify_all_combinations_with_labeled_input()
-```python
-def verify_all_combinations_with_labeled_input(
-    function_under_test: Callable,
-    *,
-    options: Optional[Options] = None,
-    **kwargs: Any,
-) -> None
-```
-Combinations with named parameters (clearer output).
-
-```python
-verify_all_combinations_with_labeled_input(
-    calculate_price,
-    size=["small", "medium", "large"],
-    quantity=[1, 5, 10],
-)
-```
-
-### verify_best_covering_pairs()
-Same signature as `verify_all_combinations()` but uses pairwise testing for fewer combinations.
+- `verify_all_combinations(fn, [[vals1], [vals2]])` - Test all input combinations
+- `verify_all_combinations_with_labeled_input(fn, param1=[...], param2=[...])` - Clearer output (recommended)
+- `verify_best_covering_pairs(fn, [[...], [...]])` - Pairwise testing, requires `allpairspy`
 
 ## Options Class
 
