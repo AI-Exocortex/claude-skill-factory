@@ -6,7 +6,7 @@ Infrastructure wrappers isolate external systems behind clean interfaces. Each w
 
 - [Structure](#structure)
 - [Building a Wrapper: Step by Step](#building-a-wrapper-step-by-step)
-- [Wrapper Composition](#wrapper-composition)
+- [Wrapper Composition (Fake It Once You Make It)](#wrapper-composition-fake-it-once-you-make-it)
 - [Zero-Impact Instantiation](#zero-impact-instantiation)
 - [Parameterless Instantiation](#parameterless-instantiation)
 - [When NOT to Create a Wrapper](#when-not-to-create-a-wrapper)
@@ -184,9 +184,120 @@ describe("FileSystem", () => {
 });
 ```
 
-## Wrapper Composition
+## Wrapper Composition (Fake It Once You Make It)
 
-Higher-level wrappers can delegate to lower-level Nullables:
+Once your low-level infrastructure has `createNull()`, higher-level code doesn't need its own stubs. It composes from the Nullables below it.
+
+```
+App                        ← No stub needed, composes from below
+ └── OrderService          ← No stub needed, composes from below
+      ├── Database         ← Nullable (has embedded stub)
+      └── Emailer          ← Nullable (has embedded stub)
+```
+
+Only the leaves (Database, Emailer) have embedded stubs. Everything above just wires up `createNull()` calls.
+
+### Multi-Layer Example
+
+```javascript
+// LEAF: Database has its own embedded stub
+class Database {
+  static create() {
+    return new Database(mysql.createPool());
+  }
+
+  static createNull({ orders = [], users = [] } = {}) {
+    return new Database(new StubbedPool(orders, users));
+  }
+
+  // ... methods ...
+}
+
+// LEAF: Emailer has its own embedded stub
+class Emailer {
+  static create() {
+    return new Emailer(new SmtpClient());
+  }
+
+  static createNull() {
+    return new Emailer(new StubbedSmtp());
+  }
+
+  // ... methods ...
+}
+
+// MIDDLE: OrderService has NO stub—it composes
+class OrderService {
+  static create() {
+    return new OrderService(Database.create(), Emailer.create());
+  }
+
+  static createNull({ orders = [], users = [] } = {}) {
+    const db = Database.createNull({ orders, users });
+    const emailer = Emailer.createNull();
+    return {
+      service: new OrderService(db, emailer),
+      emails: emailer.trackOutput(),
+      dbWrites: db.trackWrites()
+    };
+  }
+
+  constructor(database, emailer) {
+    this._db = database;
+    this._emailer = emailer;
+  }
+
+  async processOrder(orderId) {
+    const order = await this._db.getOrder(orderId);
+    // ... process ...
+    await this._emailer.sendConfirmation(order);
+  }
+}
+
+// TOP: App has NO stub—it composes
+class App {
+  static create() {
+    return new App(OrderService.create(), Logger.create());
+  }
+
+  static createNull({ orders = [], users = [] } = {}) {
+    const { service, emails, dbWrites } = OrderService.createNull({ orders, users });
+    const logger = Logger.createNull();
+    return {
+      app: new App(service, logger),
+      emails,
+      dbWrites,
+      logs: logger.trackOutput()
+    };
+  }
+
+  constructor(orderService, logger) {
+    this._orders = orderService;
+    this._logger = logger;
+  }
+}
+```
+
+### Testing at Any Level
+
+```javascript
+it("sends confirmation email when order processed", async () => {
+  const { app, emails } = App.createNull({
+    orders: [{ id: "123", items: ["widget"] }]
+  });
+
+  await app.processOrder("123");
+
+  assert.equal(emails.data.length, 1);
+  assert.equal(emails.data[0].to, "customer@example.com");
+});
+```
+
+The test creates `App` but verifies email behavior. No mocks, no stubs at the App level—just composition.
+
+### Single-Level Composition
+
+For simpler cases with one dependency:
 
 ```javascript
 class LoginClient {
@@ -195,12 +306,10 @@ class LoginClient {
   }
 
   static createNull({ email = "null@example.com", verified = true } = {}) {
-    // Translate to HTTP-level responses
     const httpResponse = {
       status: 200,
       body: JSON.stringify({ email, email_verified: verified })
     };
-
     return new LoginClient(
       HttpClient.createNull({ "/userinfo": httpResponse })
     );
@@ -218,6 +327,8 @@ class LoginClient {
   }
 }
 ```
+
+`LoginClient.createNull()` accepts domain-level params (`email`, `verified`) and translates them to HTTP-level responses internally. Callers never see HTTP details.
 
 ## Zero-Impact Instantiation
 
