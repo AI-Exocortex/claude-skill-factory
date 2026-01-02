@@ -5,7 +5,7 @@ Verify log output and trace method execution.
 ## Contents
 
 - [SimpleLogger](#simplelogger)
-- [verify_logging()](#verify_logging)
+- [verify_logging](#verify_logging)
 - [Combining Logs with Results](#combining-logs-with-results)
 
 ## SimpleLogger
@@ -24,6 +24,7 @@ def test_logging():
 ```
 
 Output:
+
 ```
 variable: count = 42
 variable: name = Alice <str>
@@ -34,28 +35,41 @@ variable: name = Alice <str>
 Log method entry/exit with parameters:
 
 ```python
+from approvaltests.utilities.simple_logger import SimpleLogger, verify_simple_logger
+
 def process(x, y):
     with SimpleLogger.use_markers(f"x = {x}, y = {y}"):
-        # method body
         pass
+
+def test_process():
+    with verify_simple_logger():
+        process(1, 2)
 ```
 
 Output:
+
 ```
 -> in: process(x = 1, y = 2) in test_file
 <- out: process()
 ```
 
-For logging values at both entry AND exit (e.g., values that change), use a lambda:
+For values that change during execution, use a lambda:
 
 ```python
+from approvaltests.utilities.simple_logger import SimpleLogger, verify_simple_logger
+
 def countdown(n):
     with SimpleLogger.use_markers(lambda: f"n = {n}"):
         while n > 0:
             n -= 1
+
+def test_countdown():
+    with verify_simple_logger():
+        countdown(10)
 ```
 
 Output:
+
 ```
 -> in: countdown(n = 10) in test_file
 <- out: countdown(n = 0)
@@ -66,18 +80,22 @@ Output:
 Capture logs to a string for manual verification:
 
 ```python
-output = SimpleLogger.log_to_string()
-SimpleLogger.variable("x", 123)
-verify(output)
+from approvaltests import verify
+from approvaltests.utilities.simple_logger import SimpleLogger
+
+def test_with_string():
+    output = SimpleLogger.log_to_string()
+    SimpleLogger.variable("x", 123)
+    verify(output)
 ```
 
-## verify_logging()
+## verify_logging
 
-Verify standard Python logging output:
+Verify standard Python logging output. Requires `testfixtures` and `mock`.
 
 ```python
-from approvaltests.utilities.logging import verify_logging
 import logging
+from approvaltests.utilities.logging import verify_logging
 
 def test_logs():
     with verify_logging():
@@ -85,26 +103,29 @@ def test_logs():
         logging.warning("Watch out")
 ```
 
-Requires: `pip install testfixtures mock`
-
 ## Combining Logs with Results
 
 Three approaches when you need both log output and return value:
 
 ### Approach 1: Log the result too
 
+Single approval file with both logs and result.
+
 ```python
+import logging
+from approvaltests.utilities.logging import verify_logging
+
 def test_with_logs():
     with verify_logging():
         result = load_data()
         logging.info(f"result = {result}")
 ```
 
-Single approval file with both logs and result.
-
 ### Approach 2: Separate approval files
 
 ```python
+from approvaltests import verify
+from approvaltests.utilities.logging import verify_logging
 from approvaltests.namer import NamerFactory
 
 def test_separate():
@@ -117,7 +138,12 @@ Creates two files: `test_separate.logging.approved.txt` and `test_separate.appro
 
 ### Approach 3: Separate tests
 
+Cleanest separation, but runs code twice.
+
 ```python
+from approvaltests import verify
+from approvaltests.utilities.logging import verify_logging
+
 def test_logs_only():
     with verify_logging():
         load_data()
@@ -125,5 +151,3 @@ def test_logs_only():
 def test_result_only():
     verify(load_data())
 ```
-
-Cleanest separation, but runs the code twice.
