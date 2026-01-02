@@ -98,6 +98,17 @@ public class MyTest { }
 
 Commit all `.approved.*` files.
 
+## Quick Decision Guide
+
+- Objects → `JsonApprovals.verifyAsJson(obj)`
+- Arrays/lists (structured) → `JsonApprovals.verifyAsJson(items)`
+- Arrays/lists (labeled) → `Approvals.verifyAll("Items", items, formatter)`
+- Non-deterministic data → scrubbers, add before first run ([scrubbers.md](references/java/scrubbers.md))
+- Multiple scenarios per test → `NamerFactory.withParameters()` ([advanced.md](references/java/advanced.md))
+- Input combinations → `CombinationApprovals.verifyAllCombinations()` ([api.md](references/java/api.md))
+- Console output → `ConsoleOutput` ([logging.md](references/java/logging.md))
+- Short inline expectations → `Options().inline(expected)` ([inline.md](references/java/inline.md))
+
 ## Reference Files
 
 - [api.md](references/java/api.md) - verifyXml/Html, CombinationApprovals, Verifiable interface, database results

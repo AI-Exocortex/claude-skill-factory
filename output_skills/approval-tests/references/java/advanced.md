@@ -7,6 +7,7 @@
 - [Custom File Extensions](#custom-file-extensions)
 - [Additional Info in Filename](#additional-info-in-filename)
 - [Machine-Specific Tests](#machine-specific-tests)
+- [Common Mistakes](#common-mistakes)
 
 For inline approvals, see [inline.md](inline.md).
 For console output capture, see [logging.md](logging.md).
@@ -171,3 +172,76 @@ void testOsSpecific() {
 ```
 
 Creates: `testOsSpecific.Mac.approved.txt` or `testOsSpecific.Windows.approved.txt`
+
+## Common Mistakes
+
+### Multiple verify() calls without NamerFactory
+
+Each `Approvals.verify()` overwrites the same file. Only the last one is tested.
+
+```java
+// Broken - only tests result2
+@Test
+void testBoth() {
+    Approvals.verify(result1);
+    Approvals.verify(result2);
+}
+
+// Fixed - separate files
+@Test
+void testBoth() {
+    try (MultipleFilesLabeller labeller = NamerFactory.useMultipleFiles()) {
+        Approvals.verify(result1);
+        labeller.next();
+        Approvals.verify(result2);
+    }
+}
+```
+
+### Hand-editing .approved files
+
+Breaks the contract. The approved file should only be created by running the test and approving the received output.
+
+If the output is wrong, fix the code and regenerate.
+
+### Over-approving
+
+Approving an entire entity when you only care about a few fields. Large approvals hide real changes in noise.
+
+```java
+// Not this - approves 50 fields when you care about 3
+JsonApprovals.verifyAsJson(fullUserRecord);
+
+// This - approve only what matters
+JsonApprovals.verifyAsJson(Map.of(
+    "name", user.getName(),
+    "email", user.getEmail(),
+    "status", user.getStatus()
+));
+```
+
+### Under-scrubbing
+
+Tests pass locally, fail in CI.
+
+If it varies by environment, scrub it: timestamps, UUIDs, file paths, hostnames, process IDs.
+
+### Mixing approvals with assertions
+
+The approval captures everything. If you're adding assertions alongside `verify()`, you're probably testing two things.
+
+```java
+// Not this
+@Test
+void testUser() {
+    User user = createUser();
+    assertThat(user.getId()).isGreaterThan(0);
+    JsonApprovals.verifyAsJson(user);
+}
+
+// This - the approval captures everything including id
+@Test
+void testUser() {
+    JsonApprovals.verifyAsJson(createUser());
+}
+```
