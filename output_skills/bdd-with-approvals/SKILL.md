@@ -3,7 +3,7 @@ name: bdd-with-approvals
 description: Scannable BDD tests written in domain language. Use when doing BDD.
 ---
 
-STARTER_CHARACTER = 🧪📋
+STARTER_CHARACTER = ☑️
 
 # BDD with Approval Tests
 
