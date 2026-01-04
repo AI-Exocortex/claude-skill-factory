@@ -75,6 +75,9 @@ description: [What it does]. Use when [trigger phrases user would say].
 - Concise instructions. Assume Claude is smart, but help guide and focus it by providing good order and progressive disclosure.
 - Use principles + anti-examples, not good examples to copy (avoids collapsing solution space)
 - Avoid markdown tables - use lists or prose instead (tables require rendering to read easily)
+- Don't do question-based formatting ("Need X? Do Y")
+- Try to avoid leading language ("When you want to...", "If you need...")
+- Don't add hand-holding phrasing in attempt to provide hand-holding guidance. 
 
 ### 7. Add Supporting Files (if multi-file)
 
