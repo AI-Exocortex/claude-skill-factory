@@ -1,11 +1,26 @@
 ---
 name: bdd-with-approvals
-description: Human-scannable approval fixtures for domain validation. Use when writing approval tests, snapshot tests, golden master tests, or when fixtures need validation by domain experts or at a glance.
+description: Living specifications using approval tests instead of Gherkin. Use when writing BDD acceptance tests, system tests, e2e tests, or integration tests where you want scannable domain-level specs without Gherkin's step definition overhead.
 ---
 
 # BDD with Approval Tests
 
-The fixture file is the specification. A human looks at it and immediately sees: correct or not.
+Alternative to Gherkin for BDD-level tests. The fixture file is the living specification.
+
+## Why Not Gherkin
+
+Gherkin couples to implementation through step definitions. When things change, those wrappers break. Given/When/Then often ends up at implementation level—feels like unit tests, hard to scan.
+
+Approval fixtures express behavior at domain level. A human looks at it and immediately sees: correct or not. No step definitions to maintain.
+
+## When to Use
+
+System-level tests:
+- End-to-end with real infrastructure
+- Integration tests with nulled infrastructure (see `/nullables`)
+- Acceptance tests proving a feature works as specified
+
+For the approval testing technique itself (verify, scrubbers, combinations), see `/approval-tests`.
 
 ## Core Pattern
 
