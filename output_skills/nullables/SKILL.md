@@ -38,7 +38,9 @@ Nullables are production code with an "off switch" for infrastructure—not test
 
 ## The Foundation: A-Frame Architecture
 
-A-Frame is the architectural insight that makes Nullables work. Traditional layered architecture stacks Logic on top of Infrastructure, making Logic depend on slow, brittle I/O. A-Frame makes them **peers** instead:
+A-Frame is the architectural insight that makes Nullables work especially well. 
+Traditional layered architecture stacks Logic on top of Infrastructure, making Logic depend on slow, brittle I/O. 
+A-Frame makes them **peers** instead:
 
 ```
         Application (coordinates)
