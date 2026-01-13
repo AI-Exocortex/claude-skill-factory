@@ -5,7 +5,7 @@ description: Reference patterns for augmented coding with AI. Use when discussin
 
 # AI Patterns Reference
 
-Patterns for effective AI-augmented software development by Lada Kesseler (github nickname lexler), Llewellyn Falco, and contributors.
+Patterns for effective AI-augmented software development by Lada Kesseler (github nickname lexler), Llewellyn Falco, Ivett Ördög, and Nitsan Avni.
 
 ## First Step: Always Update the Reference Repository
 
