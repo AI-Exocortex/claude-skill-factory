@@ -5,6 +5,13 @@ description: Creates Claude Code slash commands (custom prompts invoked with /).
 
 STARTER_CHARACTER = 📋
 
+## Setup
+
+First, update the reference docs to get the latest from Anthropic:
+```bash
+python ~/.claude/skills/creating-slash-commands/scripts/update-docs.py
+```
+
 ## What Slash Commands Are
 
 Single markdown files containing prompts that users invoke explicitly with `/command-name`. The filename (without `.md`) becomes the command name.
