@@ -52,7 +52,7 @@ For each scenario, show the transformation or state change. Format depends on do
 Use domain language. Stay high-level. Show complete examples, don't truncate.
 
 ### 5. Surface Options, Then Decide
-Present 2-4 options with tradeoffs. Don't decide alone:
+Present several options with tradeoffs. Don't decide alone:
 - "Option A does X, Option B does Y. Which direction?"
 - Wait for input before proceeding
 
