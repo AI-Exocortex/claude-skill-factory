@@ -1,6 +1,6 @@
 ---
 name: refinement-loop
-description: Generic iterative refinement process. Use when distilling ideas to their essence, simplifying explanations, refactoring code, or any task needing progressive improvement through multiple passes.
+description: Iterative refinement through multiple passes. Use when the user asks to 'meditate on', 'distill', 'refine', or 'iterate on' something. Applies to tasks likes distilling ideas to their essence, progressively simplifying explanations, improving drafts through successive passes, or any work benefiting from repeated cycles of analysis and improvement.
 ---
 
 # Refinement Loop
