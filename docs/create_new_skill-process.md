@@ -135,4 +135,6 @@ Tell user to restart Claude Code to load the skill.
 Note any other issues and think broader. Read the skill documentation again, then read the skill definition, suggest improvements based on the issues seen. 
 
 ## Output
-Save completed skill to: `output_skills/[skill-name]/SKILL.md`
+Save completed skill to `output_skills/[category]/[skill-name]/SKILL.md`.
+
+Look at existing category folders in `output_skills/` and pick the best fit. Confirm with the user before saving. If none fit well, propose a new category — suggest your best pick, list alternatives you considered with brief reasons for rejecting them, then let the user decide.
