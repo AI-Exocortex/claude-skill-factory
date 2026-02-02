@@ -16,12 +16,47 @@ LOCAL_SKILLS_DIR = Path.cwd() / ".claude" / "skills"
 
 def discover_skills():
     if not SKILLS_SOURCE_DIR.exists():
-        return []
-    return sorted([d.name for d in SKILLS_SOURCE_DIR.iterdir() if d.is_dir()])
+        return {}
+    registry = {}
+    collisions = []
+    for skill_md in sorted(SKILLS_SOURCE_DIR.rglob("SKILL.md")):
+        skill_dir = skill_md.parent
+        name = skill_dir.name
+        if name in registry:
+            collisions.append((name, registry[name], skill_dir))
+        else:
+            registry[name] = skill_dir
+    for name, first, duplicate in collisions:
+        print(f"!!! COLLISION: skill '{name}' found at both")
+        print(f"    {first.relative_to(SKILLS_SOURCE_DIR)}")
+        print(f"    {duplicate.relative_to(SKILLS_SOURCE_DIR)}")
+        print(f"    Skipping '{name}' entirely — rename one of them to resolve.")
+        del registry[name]
+    return registry
 
 
-def is_installed(skill_name):
-    source = SKILLS_SOURCE_DIR / skill_name
+def skill_source_path(registry, skill_name):
+    if skill_name not in registry:
+        print(f"Error: Skill '{skill_name}' not found in output_skills/")
+        return None
+    return registry[skill_name]
+
+
+def skill_category(registry, skill_name):
+    source = registry.get(skill_name)
+    if not source:
+        return ""
+    relative = source.relative_to(SKILLS_SOURCE_DIR)
+    parts = relative.parts
+    if len(parts) <= 1:
+        return ""
+    return "/".join(parts[:-1])
+
+
+def is_installed(registry, skill_name):
+    source = skill_source_path(registry, skill_name)
+    if not source:
+        return False
     target = GLOBAL_SKILLS_DIR / skill_name
     return target.is_symlink() and target.resolve() == source
 
@@ -31,13 +66,11 @@ def is_installed_local(skill_name):
     return target.exists() and target.is_dir()
 
 
-def install_skill(skill_name):
-    source = SKILLS_SOURCE_DIR / skill_name
-    target = GLOBAL_SKILLS_DIR / skill_name
-
-    if not source.exists():
-        print(f"Error: Skill '{skill_name}' not found in output_skills/")
+def install_skill(registry, skill_name):
+    source = skill_source_path(registry, skill_name)
+    if not source:
         return False
+    target = GLOBAL_SKILLS_DIR / skill_name
 
     if target.exists() or target.is_symlink():
         if target.is_symlink():
@@ -62,13 +95,11 @@ def uninstall_skill(skill_name):
     return True
 
 
-def install_skill_local(skill_name):
-    source = SKILLS_SOURCE_DIR / skill_name
-    target = LOCAL_SKILLS_DIR / skill_name
-
-    if not source.exists():
-        print(f"Error: Skill '{skill_name}' not found in output_skills/")
+def install_skill_local(registry, skill_name):
+    source = skill_source_path(registry, skill_name)
+    if not source:
         return False
+    target = LOCAL_SKILLS_DIR / skill_name
 
     if target.exists():
         shutil.rmtree(target)
@@ -90,34 +121,45 @@ def uninstall_skill_local(skill_name):
 
 
 def cli_status():
-    skills = discover_skills()
-    if not skills:
+    registry = discover_skills()
+    if not registry:
         print("No skills found in output_skills/")
         return
 
-    print(f"{'Skill':<20} {'Status'}")
-    print("-" * 35)
-    for name in skills:
-        status = "installed" if is_installed(name) else "not installed"
-        print(f"{name:<20} {status}")
+    current_category = None
+    for name in sorted(registry, key=lambda n: (skill_category(registry, n), n)):
+        category = skill_category(registry, name) or "(uncategorized)"
+        if category != current_category:
+            if current_category is not None:
+                print()
+            print(f"  {category}/")
+            current_category = category
+        status = "installed" if is_installed(registry, name) else "not installed"
+        print(f"    {name:<28} {status}")
 
 
 def cli_status_local():
-    skills = discover_skills()
-    if not skills:
+    registry = discover_skills()
+    if not registry:
         print("No skills found in output_skills/")
         return
 
     print(f"Local skills ({LOCAL_SKILLS_DIR}):")
-    print(f"{'Skill':<20} {'Status'}")
-    print("-" * 35)
-    for name in skills:
+    current_category = None
+    for name in sorted(registry, key=lambda n: (skill_category(registry, n), n)):
+        category = skill_category(registry, name) or "(uncategorized)"
+        if category != current_category:
+            if current_category is not None:
+                print()
+            print(f"  {category}/")
+            current_category = category
         status = "installed" if is_installed_local(name) else "not installed"
-        print(f"{name:<20} {status}")
+        print(f"    {name:<28} {status}")
 
 
 def cli_install(skill_name):
-    if install_skill(skill_name):
+    registry = discover_skills()
+    if install_skill(registry, skill_name):
         print(f"Installed '{skill_name}' (global)")
     else:
         sys.exit(1)
@@ -131,7 +173,8 @@ def cli_uninstall(skill_name):
 
 
 def cli_install_local(skill_name):
-    if install_skill_local(skill_name):
+    registry = discover_skills()
+    if install_skill_local(registry, skill_name):
         print(f"Installed '{skill_name}' (local: {LOCAL_SKILLS_DIR})")
     else:
         sys.exit(1)
@@ -144,13 +187,25 @@ def cli_uninstall_local(skill_name):
         sys.exit(1)
 
 
+def build_tui_lines(registry):
+    lines = []
+    current_category = None
+    for name in sorted(registry, key=lambda n: (skill_category(registry, n), n)):
+        category = skill_category(registry, name) or "(uncategorized)"
+        if category != current_category:
+            lines.append(("header", category))
+            current_category = category
+        lines.append(("skill", name))
+    return lines
+
+
 def interactive_mode(stdscr):
     curses.curs_set(0)
     curses.use_default_colors()
 
-    skills = discover_skills()
+    registry = discover_skills()
 
-    if not skills:
+    if not registry:
         stdscr.addstr(0, 0, "No skills found in output_skills/. Press any key to exit.")
         try:
             stdscr.getch()
@@ -158,21 +213,31 @@ def interactive_mode(stdscr):
             pass
         return
 
-    selected = 0
+    tui_lines = build_tui_lines(registry)
+    skill_indices = [i for i, (kind, _) in enumerate(tui_lines) if kind == "skill"]
+    selected_pos = 0
 
     while True:
         stdscr.clear()
         stdscr.addstr(0, 0, "Skills Manager (global)")
         stdscr.addstr(1, 0, "─" * 40)
 
-        for i, name in enumerate(skills):
-            installed = is_installed(name)
-            checkbox = "[x]" if installed else "[ ]"
-            prefix = "→ " if i == selected else "  "
-            line = f"{prefix}{checkbox} {name}"
-            stdscr.addstr(i + 3, 0, line)
+        row = 3
+        for i, (kind, value) in enumerate(tui_lines):
+            if kind == "header":
+                if row > 3:
+                    row += 1
+                stdscr.addstr(row, 0, f"  {value}/")
+                row += 1
+            else:
+                installed = is_installed(registry, value)
+                checkbox = "[x]" if installed else "[ ]"
+                is_selected = skill_indices[selected_pos] == i
+                prefix = "  → " if is_selected else "    "
+                stdscr.addstr(row, 0, f"{prefix}{checkbox} {value}")
+                row += 1
 
-        stdscr.addstr(len(skills) + 5, 0, "↑↓ navigate | SPACE toggle | q quit")
+        stdscr.addstr(row + 2, 0, "↑↓ navigate | SPACE toggle | q quit")
         stdscr.refresh()
 
         try:
@@ -182,16 +247,17 @@ def interactive_mode(stdscr):
 
         if key == ord("q"):
             break
-        elif key == curses.KEY_UP and selected > 0:
-            selected -= 1
-        elif key == curses.KEY_DOWN and selected < len(skills) - 1:
-            selected += 1
+        elif key == curses.KEY_UP and selected_pos > 0:
+            selected_pos -= 1
+        elif key == curses.KEY_DOWN and selected_pos < len(skill_indices) - 1:
+            selected_pos += 1
         elif key == ord(" "):
-            name = skills[selected]
-            if is_installed(name):
+            idx = skill_indices[selected_pos]
+            name = tui_lines[idx][1]
+            if is_installed(registry, name):
                 uninstall_skill(name)
             else:
-                install_skill(name)
+                install_skill(registry, name)
 
 
 def print_usage():
