@@ -9,16 +9,18 @@ skill-factory/
 │   └── fetch_anthropic_skill_docs.py   # Fetch latest Anthropic docs
 ├── docs/                               # All knowledge about creating skills
 │   ├── knowledge/
-│   │   └── anthropic-skill-docs/       # Official Anthropic skill documentation
-│   │       ├── overview.md             # What skills are, why they exist, core concepts
-│   │       ├── skills.md               # Implementation syntax, structure, usage patterns
-│   │       └── best-practices.md       # Proven patterns, common pitfalls, guidelines
+│   │   ├── anthropic-skill-docs/       # Official Anthropic skill documentation
+│   │   │   ├── overview.md             # What skills are, why they exist, core concepts
+│   │   │   ├── skills.md               # Implementation syntax, structure, usage patterns
+│   │   │   └── best-practices.md       # Proven patterns, common pitfalls, guidelines
+│   │   └── fpf/                        # Foundational thinking reference
+│   │       └── FPF-Spec.md             # First Principles Framework for AI reasoning
 │   ├── create_new_skill-process.md     # Instructions for creating skills
 │   ├── map.md                          # This file - repository structure
 │   └── project.md                      # Project-specific information
 └── output_skills/                      # Created skills organized by category
     ├── testing/                        # tdd, nullables, approval-tests, bdd-with-approvals
-    ├── design/                         # hexagonal-architecture, event-modeling, collaborative-design
+    ├── design/                         # hexagonal-architecture, event-modeling, collaborative-design, oo-design-heuristics
     ├── practices/                      # refactoring, refinement-loop
     ├── ai/                             # ai-patterns, creating-process-files
     │   └── claude-code/                # creating-hooks

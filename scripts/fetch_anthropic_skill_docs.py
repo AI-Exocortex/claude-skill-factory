@@ -9,23 +9,34 @@ from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).parent
 REPO_ROOT = SCRIPT_DIR.parent
-DOCS_DIR = REPO_ROOT / "docs" / "knowledge" / "anthropic-skill-docs"
+KNOWLEDGE_DIR = REPO_ROOT / "docs" / "knowledge"
 SOURCES_FILE = SCRIPT_DIR / "sources.txt"
-OUTPUT_DIR = DOCS_DIR
+
+# Map specific files to their output directories
+OUTPUT_DIRS = {
+    "FPF-Spec.md": KNOWLEDGE_DIR / "fpf",
+    # Default for all others
+    "default": KNOWLEDGE_DIR / "anthropic-skill-docs"
+}
 
 def fetch_docs():
     if not SOURCES_FILE.exists():
         print(f"Error: {SOURCES_FILE} not found")
         return
 
-    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    # Ensure all output directories exist
+    for output_dir in OUTPUT_DIRS.values():
+        output_dir.mkdir(parents=True, exist_ok=True)
 
     with open(SOURCES_FILE) as f:
-        urls = [line.strip() for line in f if line.strip()]
+        urls = [line.strip() for line in f if line.strip() and not line.strip().startswith('#')]
 
     for url in urls:
         filename = url.split("/")[-1]
-        output_path = OUTPUT_DIR / filename
+
+        # Determine output directory based on filename
+        output_dir = OUTPUT_DIRS.get(filename, OUTPUT_DIRS["default"])
+        output_path = output_dir / filename
 
         print(f"Fetching {filename}...")
         try:

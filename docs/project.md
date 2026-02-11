@@ -15,6 +15,7 @@ The Skill Factory is a repository designed to efficiently create and organize Cl
 ### Documentation (`docs/`)
 Contains all instructional material needed to create skills:
 - Official Anthropic documentation on skill creation
+- First Principles Framework (FPF) for clear AI reasoning
 - Best practices and patterns
 - Quick-start guides
 

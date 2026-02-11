@@ -59,7 +59,7 @@ Without this line in your global CLAUDE.md, the `STARTER_CHARACTER` lines in ski
 ./update-docs
 ```
 
-Pulls latest skill patterns from Anthropic.
+Pulls latest skill patterns from Anthropic and foundational thinking reference materials (FPF-Spec).
 
 ## Structure
 

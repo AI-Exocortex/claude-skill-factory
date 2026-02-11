@@ -24,10 +24,15 @@ Run the update script to fetch the latest Anthropic skill docs:
 ```
 
 ### 2. Learn Skill Patterns
-Read the official documentation in `docs/knowledge/anthropic-skill-docs/`:
+Read the official documentation in `docs/knowledge/`:
+
+**Anthropic skill documentation** (`anthropic-skill-docs/`):
 - `overview.md` - Core concepts and architecture
 - `skills.md` - Implementation patterns
 - `best-practices.md` - Guidelines and pitfalls
+
+**Foundational thinking reference** (`fpf/`):
+- `FPF-Spec.md` - First Principles Framework for clear AI-model thinking and reasoning
 
 ### 3. Clarify the Goal
 Ask the user:
