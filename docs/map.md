@@ -4,31 +4,102 @@
 skill-factory/
 ├── CLAUDE.md                           # Agent instructions for this project
 ├── update-docs                         # Bash wrapper to update documentation
+├── skills                              # Install script: symlink/copy skills into ~/.claude/skills or project
+├── playground/                         # Throw-away exploratory code (gitignored)
 ├── scripts/                            # Automation scripts
 │   ├── sources.txt                     # URLs to fetch docs from
-│   └── fetch_anthropic_skill_docs.py   # Fetch latest Anthropic docs
+│   ├── fetch_anthropic_skill_docs.py   # Fetch latest Anthropic docs
+│   ├── fetch_skill_creator.py          # Fetch latest skill-creator from GitHub
+│   ├── fetch_writing_great_skills.py   # Fetch Matt Pocock's writing-great-skills skill (MIT)
+│   ├── next_iteration.py               # Mint fresh iteration-N dir in an eval workspace
+│   ├── test_next_iteration.py          # Tests for next_iteration.py
+│   ├── patch_eval_viewer.py            # Re-apply local viewer fix (inline text for extensionless outputs) after update-docs
+│   ├── test_patch_eval_viewer.py       # Tests for patch_eval_viewer.py
+│   └── export-refactoring-attempt      # Export a refactoring attempt for review
 ├── docs/                               # All knowledge about creating skills
 │   ├── knowledge/
 │   │   ├── anthropic-skill-docs/       # Official Anthropic skill documentation
 │   │   │   ├── overview.md             # What skills are, why they exist, core concepts
 │   │   │   ├── skills.md               # Implementation syntax, structure, usage patterns
-│   │   │   └── best-practices.md       # Proven patterns, common pitfalls, guidelines
-│   │   └── fpf/                        # Foundational thinking reference
-│   │       └── FPF-Spec.md             # First Principles Framework for AI reasoning
+│   │   │   ├── best-practices.md       # Proven patterns, common pitfalls, guidelines
+│   │   │   ├── sub-agents.md           # Subagent configuration (context: fork)
+│   │   │   └── hooks-guide.md          # Hooks and skill integration
+│   │   ├── fpf/                        # Foundational thinking reference
+│   │   │   └── FPF-Spec.md             # First Principles Framework for AI reasoning
+│   │   ├── writing-great-skills/       # Matt Pocock's authoring theory (vendored, MIT — see ATTRIBUTION.md)
+│   │   │   ├── SKILL.md                # Invocation choice, information hierarchy, leading words, failure modes
+│   │   │   └── GLOSSARY.md             # Full definitions of the bold terms
+│   │   ├── oodh/                       # Riel's OO design heuristics reference material
+│   │   └── anthropic-skill-creator/     # Anthropic's skill-creator (eval infrastructure)
+│   │       ├── SKILL.md                # Main skill-creator instructions
+│   │       ├── agents/                 # Grader, comparator, analyzer agents
+│   │       ├── scripts/                # Eval runner, benchmarks, description optimizer
+│   │       ├── eval-viewer/            # HTML eval viewer and report generator
+│   │       ├── references/             # JSON schemas for evals, grading, benchmarks
+│   │       └── assets/                 # HTML templates for trigger eval review
 │   ├── create_new_skill-process.md     # Instructions for creating skills
+│   ├── create_evals-process.md         # Instructions for evaluating skills
 │   ├── map.md                          # This file - repository structure
 │   └── project.md                      # Project-specific information
 └── output_skills/                      # Created skills organized by category
-    ├── testing/                        # tdd, nullables, approval-tests, bdd-with-approvals
-    ├── design/                         # hexagonal-architecture, event-modeling, collaborative-design, oo-design-heuristics
-    ├── practices/                      # refactoring, refinement-loop
-    ├── ai/                             # ai-patterns, creating-process-files
-    │   └── claude-code/                # creating-hooks
-    └── developer-tools/                # writing-bash-scripts, using-uv, git-worktrees
+    ├── testing/
+    │   ├── tdd/
+    │   ├── nullables/
+    │   ├── approval-tests/
+    │   └── bdd-with-approvals/
+    ├── design/
+    │   ├── align/
+    │   ├── applying-sbpp/
+    │   ├── c4-diagrams/
+    │   ├── collaborative-design/
+    │   ├── event-modeling/
+    │   ├── hexagonal-architecture/
+    │   ├── oo-design-guide/
+    │   └── oo-design-heuristics/
+    ├── learning/
+    │   └── socratic-learning/
+    ├── practices/
+    │   ├── demo-with-narration/
+    │   ├── growing-outside-in-systems/
+    │   ├── hotspots/
+    │   ├── realtime-collaboration/
+    │   ├── refactoring/
+    │   ├── refinement-loop/
+    │   └── small-steps/                # draft, no SKILL.md yet
+    ├── meta-workflows/
+    │   ├── forge/                      # spine skill
+    │   ├── forge-explore/
+    │   ├── forge-design/
+    │   ├── forge-propose/
+    │   ├── forge-specify/
+    │   ├── forge-plan/
+    │   ├── forge-build/
+    │   ├── forge-verify/
+    │   ├── forge-close/
+    │   └── strict-sdd/
+    ├── ai/
+    │   ├── ai-patterns/
+    │   ├── creating-process-files/
+    │   ├── extract-knowledge/
+    │   └── claude-code/                # subfolder for Claude Code-specific skills
+    │       ├── creating-hooks/
+    │       ├── launching-agent-teams/
+    │       ├── refactoring-team/
+    │       └── writing-statuslines/
+    └── developer-tools/
+        ├── git-worktrees/
+        ├── playwright-cli/
+        ├── timew-report/
+        ├── using-uv/
+        ├── using-yaks/                 # draft, no SKILL.md yet
+        └── writing-bash-scripts/
 ```
+
+Eval workspaces are created as siblings to skill directories, named `{skill-name}-workspace/` (e.g., `c4-diagrams-workspace/`). They are gitignored and not tracked.
 
 ## Purpose
 
-- **docs/**: Contains all instructional material the agent uses to create skills
-- **output_skills/**: Stores completed skills, each in a category subfolder
-- **CLAUDE.md**: Provides context to the agent about this repository's purpose
+- **docs/**: All instructional material and fetched dependencies for creating and evaluating skills
+- **output_skills/**: Completed skills, each in a category subfolder. Symlinked to `~/.claude/skills/` via the `./skills` script
+- **CLAUDE.md**: Project instructions — overrides the Anthropic skill-creator plugin
+</content>
