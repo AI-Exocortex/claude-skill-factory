@@ -1,0 +1,4 @@
+interface:
+  display_name: "Elegant Objects"
+  short_description: "Apply Elegant Objects patterns to Java OO design"
+  default_prompt: "Use $elegant-objects to review or design this Java OO code."
